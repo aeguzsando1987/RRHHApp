@@ -24,6 +24,8 @@ namespace RRHH.WebApi.Models {
         [StringLength(100)]
         public string Descripcion {get; set;} = string.Empty;
 
+        public ICollection<Puesto> Puestos { get; set; } = new List<Puesto>();
+
         public Area Area {get; set; } = null!;
     }
 
