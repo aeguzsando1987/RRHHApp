@@ -1,6 +1,5 @@
 using RRHH.WebApi.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Build.Framework;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

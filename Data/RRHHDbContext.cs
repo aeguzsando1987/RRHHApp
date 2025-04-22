@@ -62,6 +62,40 @@ namespace RRHH.WebApi.Data {
                 .HasOne(p => p.Jerarquia)
                 .WithMany(j => j.Puestos)
                 .HasForeignKey(p => p.Id_Jerarquia);
+
+            // Empleado -> Puesto (N:1)
+            modelBuilder.Entity<Empleado>()
+                .HasOne(e => e.Puesto)
+                .WithMany(p => p.Empleados)
+                .HasForeignKey(e => e.Id_Puesto);
+
+            
+            // Empleado -> Status (N:1)
+            modelBuilder.Entity<Empleado>()
+                .HasOne(e => e.Status)
+                .WithMany(s => s.Empleados)
+                .HasForeignKey(e => e.Id_Status);
+
+            //Empleado -> Jefe (self-reference, N:1)
+            modelBuilder.Entity<Empleado>()
+                .HasOne(e => e.Jefe)
+                .WithMany()
+                .HasForeignKey(e => e.Id_Jefe)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Empleado -> Ubicacion (N:1)
+            modelBuilder.Entity<Empleado>()
+                .HasOne(e => e.Ubicacion)
+                .WithMany(u => u.Empleados)
+                .HasForeignKey(e => e.Id_Ubicacion);
+
+            // Empleado -> User (1:1)
+            modelBuilder.Entity<Empleado>()
+                .HasOne(e => e.User)
+                .WithOne(u => u.Empleado)
+                .HasForeignKey<User>(u => u.Id_Empleado);
+
+            
         }
     }
 }

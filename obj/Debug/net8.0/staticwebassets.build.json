@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "Z3BMWrAOkUGEuhv6NFYrb7Z94+CkbQr5GzHOkdN8YDg=",
+  "Source": "RRHH.WebApi",
+  "BasePath": "_content/RRHH.WebApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
