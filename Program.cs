@@ -1,51 +1,81 @@
+// Directiva using para el espacio de nombres de datos
 using RRHH.WebApi.Data;
+
+// Directiva using para el espacio de nombres de Microsoft.EntityFrameworkCore
 using Microsoft.EntityFrameworkCore;
+
+// Crear un nuevo constructor de aplicaciones web
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Agregar servicios al contenedor
+// Obtener más información sobre la configuración de Swagger/OpenAPI en https://aka.ms/aspnetcore/swashbuckle
+// Agregar el contexto de la base de datos
 builder.Services.AddDbContext<RRHHDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+{
+    // Usar la base de datos de SQL Server
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
+// Agregar los controladores
 builder.Services.AddControllers();
+
+// Agregar los generadores de Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Construir la aplicación
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configurar el pipeline de solicitudes HTTP
 if (app.Environment.IsDevelopment())
 {
+    // Usar Swagger
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
+// Usar autorización
 app.UseAuthorization();
+
+// Mapear los controladores
 app.MapControllers();
+
+// Usar HTTPS
 app.UseHttpsRedirection();
 
-var summaries = new[]
+// Crear un array de cadenas
+var resumenes = new[]
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+    "Helado", "Refrescante", "Frío", "Fresco", "Suave", "Cálido", "Agradable", "Caliente", "Suficiente", "Ardiente"
 };
 
+// Mapear el pronóstico del clima
 app.MapGet("/weatherforecast", () =>
 {
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
+    // Crear un array de objetos WeatherForecast
+    var pronostico =  Enumerable.Range(1, 5).Select(index =>
         new WeatherForecast
         (
+            // Obtener la fecha
             DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+            // Obtener la temperatura en grados Celsius
             Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
+            // Obtener un resumen aleatorio
+            resumenes[Random.Shared.Next(resumenes.Length)]
         ))
         .ToArray();
-    return forecast;
+    // Devolver el pronóstico
+    return pronostico;
 })
 .WithName("GetWeatherForecast")
 .WithOpenApi();
 
+// Iniciar la aplicación
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+// Tipo de registro para el pronóstico del clima
+record WeatherForecast(DateOnly Fecha, int TemperaturaC, string? Resumen)
 {
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    // Propiedad para obtener la temperatura en grados Fahrenheit
+    public int TemperaturaF => 32 + (int)(TemperaturaC / 0.5556);
 }
