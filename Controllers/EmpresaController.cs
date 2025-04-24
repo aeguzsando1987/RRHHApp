@@ -29,28 +29,67 @@ namespace RRHH.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<ActionResult<IEnumerable<EmpresaReadDto>>> GetAll()
         {
             var empresas = await _repository.GetAllAsync();
-            return Ok(empresas);
+            var dtos = empresas.Select(e => new EmpresaReadDto {
+                Id = e.ID,
+                Id_Org = e.Id_Org,
+                Clave = e.Clave,
+                Razon_Social = e.Razon_Social,
+                RFC = e.RFC,
+                Direccion = e.Direccion,
+                Fecha_Creacion = e.Fecha_Creacion
+            });
+            return Ok(dtos);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<ActionResult<EmpresaReadDto>> GetById(int id)
         {
             var empresa = await _repository.GetByIdAsync(id);
             if (empresa == null)
             {
                 return NotFound();
             }
-            return Ok(empresa);
+            var dto = new EmpresaReadDto {
+                Id = empresa.ID,
+                Id_Org = empresa.Id_Org,
+                Clave = empresa.Clave,
+                Razon_Social = empresa.Razon_Social,
+                RFC = empresa.RFC,
+                Direccion = empresa.Direccion,
+                Fecha_Creacion = empresa.Fecha_Creacion
+            };
+            return Ok(dto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Empresa empresa)
+        public async Task<ActionResult<EmpresaReadDto>> Create(EmpresaCreateDto dto)
         {
+            var empresa = new Empresa 
+            {
+                Id_Org = dto.Id_Org,
+                Clave = dto.Clave,
+                Razon_Social = dto.Razon_Social,
+                RFC = dto.RFC,
+                Direccion = dto.Direccion,
+                Fecha_Creacion = dto.Fecha_Creacion
+            };
             await _repository.AddSync(empresa);
-            return CreatedAtAction(nameof(GetById), new {id = empresa.ID}, empresa);
+
+            var readDto = new EmpresaReadDto
+            {
+                Id = empresa.ID,
+                Id_Org = empresa.Id_Org,
+                Clave = empresa.Clave,
+                Razon_Social = empresa.Razon_Social,
+                RFC = empresa.RFC,
+                Direccion = empresa.Direccion,
+                Fecha_Creacion = empresa.Fecha_Creacion
+            };
+            
+            return CreatedAtAction(nameof(GetById), new {id = empresa.ID}, readDto);
         }
 
         [HttpPut("{id}")]
@@ -74,12 +113,10 @@ namespace RRHH.WebApi.Controllers
         [HttpPatch("{id}")]
         public async Task<IActionResult> Patch(int id, [FromBody] JsonPatchDocument<EmpresaUpdateDto> patchDoc)
         {
-            if (patchDoc == null)
-                return BadRequest();
+            if (patchDoc == null) return BadRequest();
 
             var empresa = await _repository.GetByIdAsync(id);
-            if (empresa == null)
-                return NotFound();
+            if (empresa == null) return NotFound();
 
             // Mapear entidad a DTO
             var dto = new EmpresaUpdateDto
@@ -93,8 +130,7 @@ namespace RRHH.WebApi.Controllers
 
             // Aplicar parche y validar modelo
             patchDoc.ApplyTo(dto, ModelState);
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            if (!ModelState.IsValid)return BadRequest(ModelState);
 
             // Mapear de vuelta a la entidad
             empresa.Clave = dto.Clave;

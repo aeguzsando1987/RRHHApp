@@ -14,10 +14,10 @@ namespace RRHH.WebApi.Models.Dtos.Empresa
         public string Razon_Social { get; set; } = string.Empty;
 
         [StringLength(20)]
-        public string? RFC { get; set; }
+        public string RFC { get; set; } = string.Empty;
 
         [StringLength(200)]
-        public string? Direccion { get; set; }
+        public string Direccion { get; set; } = string.Empty;
 
         [Required]
         public DateTime Fecha_Creacion { get; set; }

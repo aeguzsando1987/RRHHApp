@@ -89,8 +89,6 @@ app.MapGet("/weatherforecast", () =>
 .WithOpenApi();
 
 
-
-
 // Iniciar la aplicación
 app.Run();
 
