@@ -1,8 +1,10 @@
 // Directiva using para el espacio de nombres de datos
 using RRHH.WebApi.Data;
-
+using RRHH.WebApi.Repositories;
 // Directiva using para el espacio de nombres de Microsoft.EntityFrameworkCore
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 
 // Crear un nuevo constructor de aplicaciones web
 var builder = WebApplication.CreateBuilder(args);
@@ -17,11 +19,22 @@ builder.Services.AddDbContext<RRHHDbContext>(options =>
 });
 
 // Agregar los controladores
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+
+        options.JsonSerializerOptions.MaxDepth = 32;
+    });
+
+builder.Services.AddControllers()
+    .AddNewtonsoftJson();
 
 // Agregar los generadores de Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<OrganizacionRepository>();
+builder.Services.AddScoped<EmpresasRepository>();
 
 // Construir la aplicación
 var app = builder.Build();
@@ -34,6 +47,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// Enrutamiento
+app.UseRouting();
+
 // Usar autorización
 app.UseAuthorization();
 
@@ -42,6 +58,8 @@ app.MapControllers();
 
 // Usar HTTPS
 app.UseHttpsRedirection();
+
+
 
 // Crear un array de cadenas
 var resumenes = new[]
@@ -69,6 +87,9 @@ app.MapGet("/weatherforecast", () =>
 })
 .WithName("GetWeatherForecast")
 .WithOpenApi();
+
+
+
 
 // Iniciar la aplicación
 app.Run();

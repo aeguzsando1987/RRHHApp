@@ -24,8 +24,8 @@ namespace RRHH.WebApi.Models {
         public DateTime Fecha_Creacion { get; set; }
 
         // Navigation properties
-        public required Organizacion Organizacion { get; set; }
-        public ICollection<Area> Areas {get; set;} = new List<Area>(); 
+        public  Organizacion? Organizacion { get; set; }
+        public ICollection<Area>? Areas {get; set;} = new List<Area>(); 
 
     }
 }

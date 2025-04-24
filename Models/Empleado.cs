@@ -53,15 +53,15 @@ namespace RRHH.WebApi.Models {
         [ForeignKey(nameof(Ubicacion))]
         public int Id_Ubicacion { get; set; }
 
-        public byte[] Fotografia { get; set; }
+        public byte[]? Fotografia { get; set; }
 
 
-        public Status Status { get; set; }
-        public Puesto Puesto { get; set; }
+        public Status? Status { get; set; }
+        public Puesto? Puesto { get; set; }
         public Empleado? Jefe { get; set; }
-        public Ubicacion Ubicacion { get; set; }
+        public Ubicacion? Ubicacion { get; set; }
 
-        public User User { get; set; }
+        public User? User { get; set; }
 
     }
 

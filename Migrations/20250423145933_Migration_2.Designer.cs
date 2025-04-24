@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RRHH.WebApi.Data;
 
@@ -11,9 +12,11 @@ using RRHH.WebApi.Data;
 namespace RRHH.WebApi.Migrations
 {
     [DbContext(typeof(RRHHDbContext))]
-    partial class RRHHDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250423145933_Migration_2")]
+    partial class Migration_2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -126,6 +129,7 @@ namespace RRHH.WebApi.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<byte[]>("Fotografia")
+                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<int?>("Id_Jefe")
@@ -496,7 +500,8 @@ namespace RRHH.WebApi.Migrations
 
             modelBuilder.Entity("RRHH.WebApi.Models.Empleado", b =>
                 {
-                    b.Navigation("User");
+                    b.Navigation("User")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("RRHH.WebApi.Models.Empresa", b =>
