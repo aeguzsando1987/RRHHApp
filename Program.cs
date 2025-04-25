@@ -18,6 +18,12 @@ builder.Services.AddDbContext<RRHHDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+
+// Agregar los repositorios
+builder.Services.AddScoped<OrganizacionRepository>();
+builder.Services.AddScoped<EmpresasRepository>();
+builder.Services.AddScoped<AreaRepository>();
+
 // Agregar los controladores
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -26,15 +32,15 @@ builder.Services.AddControllers()
 
         options.JsonSerializerOptions.MaxDepth = 32;
     });
-
-builder.Services.AddControllers()
+    
+builder.Services
+    .AddControllers()
     .AddNewtonsoftJson();
 
 // Agregar los generadores de Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<OrganizacionRepository>();
-builder.Services.AddScoped<EmpresasRepository>();
+
 
 // Construir la aplicación
 var app = builder.Build();
