@@ -63,12 +63,11 @@ namespace RRHH.WebApi.Data {
                 .WithMany(j => j.Puestos)
                 .HasForeignKey(p => p.Id_Jerarquia);
 
-            // Empleado -> Puesto (N:1)
+            // Empleado -> Puesto (1:1)
             modelBuilder.Entity<Empleado>()
                 .HasOne(e => e.Puesto)
-                .WithMany(p => p.Empleados)
-                .HasForeignKey(e => e.Id_Puesto);
-
+                .WithOne(p => p.Empleado)
+                .HasForeignKey<Empleado>(e => e.Id_Puesto);
             
             // Empleado -> Status (N:1)
             modelBuilder.Entity<Empleado>()

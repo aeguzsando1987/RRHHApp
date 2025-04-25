@@ -27,7 +27,9 @@ namespace RRHH.WebApi.Models {
         public Departamento Departamento {get; set; } = null!;
         public Jerarquia Jerarquia {get; set; } = null!;
 
-        public ICollection<Empleado> Empleados {get; set; } = new List<Empleado>();
+        public Empleado? Empleado { get; set; }
+
+        // public ICollection<Empleado> Empleados {get; set; } = new List<Empleado>();
     }
 
 }
