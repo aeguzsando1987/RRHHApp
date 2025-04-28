@@ -24,6 +24,7 @@ builder.Services.AddScoped<OrganizacionRepository>();
 builder.Services.AddScoped<EmpresasRepository>();
 builder.Services.AddScoped<AreaRepository>();
 builder.Services.AddScoped<DepartamentoRepository>();
+builder.Services.AddScoped<JerarquiaRepository>();  
 
 // Agregar los controladores
 builder.Services.AddControllers()

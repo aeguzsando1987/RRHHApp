@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RRHH.WebApi.Data;
 
@@ -11,9 +12,11 @@ using RRHH.WebApi.Data;
 namespace RRHH.WebApi.Migrations
 {
     [DbContext(typeof(RRHHDbContext))]
-    partial class RRHHDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250428230636_PuestoDescriptivosEntity")]
+    partial class PuestoDescriptivosEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -352,37 +355,6 @@ namespace RRHH.WebApi.Migrations
                     b.ToTable("Puestos");
                 });
 
-            modelBuilder.Entity("RRHH.WebApi.Models.PuestosActividad", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<DateTime>("Fecha_Actualizacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ID_PuestoDescriptivo")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Resumen")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Titulo")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("ID_PuestoDescriptivo");
-
-                    b.ToTable("PuestosActividad");
-                });
-
             modelBuilder.Entity("RRHH.WebApi.Models.PuestosDescriptivo", b =>
                 {
                     b.Property<int>("ID")
@@ -584,17 +556,6 @@ namespace RRHH.WebApi.Migrations
                     b.Navigation("Jerarquia");
                 });
 
-            modelBuilder.Entity("RRHH.WebApi.Models.PuestosActividad", b =>
-                {
-                    b.HasOne("RRHH.WebApi.Models.PuestosDescriptivo", "PuestosDescriptivo")
-                        .WithMany("PuestosActividad")
-                        .HasForeignKey("ID_PuestoDescriptivo")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("PuestosDescriptivo");
-                });
-
             modelBuilder.Entity("RRHH.WebApi.Models.PuestosDescriptivo", b =>
                 {
                     b.HasOne("RRHH.WebApi.Models.Puesto", "Puesto")
@@ -654,11 +615,6 @@ namespace RRHH.WebApi.Migrations
                     b.Navigation("Empleados");
 
                     b.Navigation("PuestosDescriptivo");
-                });
-
-            modelBuilder.Entity("RRHH.WebApi.Models.PuestosDescriptivo", b =>
-                {
-                    b.Navigation("PuestosActividad");
                 });
 
             modelBuilder.Entity("RRHH.WebApi.Models.Status", b =>

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RRHH.WebApi.Data;
 
@@ -11,9 +12,11 @@ using RRHH.WebApi.Data;
 namespace RRHH.WebApi.Migrations
 {
     [DbContext(typeof(RRHHDbContext))]
-    partial class RRHHDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250425221733_ContactosEmpleadoMigration")]
+    partial class ContactosEmpleadoMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -207,7 +210,8 @@ namespace RRHH.WebApi.Migrations
 
                     b.HasIndex("Id_Jefe");
 
-                    b.HasIndex("Id_Puesto");
+                    b.HasIndex("Id_Puesto")
+                        .IsUnique();
 
                     b.HasIndex("Id_Status");
 
@@ -352,63 +356,6 @@ namespace RRHH.WebApi.Migrations
                     b.ToTable("Puestos");
                 });
 
-            modelBuilder.Entity("RRHH.WebApi.Models.PuestosActividad", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<DateTime>("Fecha_Actualizacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ID_PuestoDescriptivo")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Resumen")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Titulo")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("ID_PuestoDescriptivo");
-
-                    b.ToTable("PuestosActividad");
-                });
-
-            modelBuilder.Entity("RRHH.WebApi.Models.PuestosDescriptivo", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<DateTime>("Fecha_Actualizacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ID_Puesto")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Resumen")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("ID_Puesto");
-
-                    b.ToTable("PuestosDescriptivo");
-                });
-
             modelBuilder.Entity("RRHH.WebApi.Models.Status", b =>
                 {
                     b.Property<int>("ID")
@@ -528,21 +475,21 @@ namespace RRHH.WebApi.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("RRHH.WebApi.Models.Puesto", "Puesto")
-                        .WithMany("Empleados")
-                        .HasForeignKey("Id_Puesto")
+                        .WithOne("Empleado")
+                        .HasForeignKey("RRHH.WebApi.Models.Empleado", "Id_Puesto")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("RRHH.WebApi.Models.Status", "Status")
                         .WithMany("Empleados")
                         .HasForeignKey("Id_Status")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("RRHH.WebApi.Models.Ubicacion", "Ubicacion")
                         .WithMany("Empleados")
                         .HasForeignKey("Id_Ubicacion")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Jefe");
@@ -582,28 +529,6 @@ namespace RRHH.WebApi.Migrations
                     b.Navigation("Departamento");
 
                     b.Navigation("Jerarquia");
-                });
-
-            modelBuilder.Entity("RRHH.WebApi.Models.PuestosActividad", b =>
-                {
-                    b.HasOne("RRHH.WebApi.Models.PuestosDescriptivo", "PuestosDescriptivo")
-                        .WithMany("PuestosActividad")
-                        .HasForeignKey("ID_PuestoDescriptivo")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("PuestosDescriptivo");
-                });
-
-            modelBuilder.Entity("RRHH.WebApi.Models.PuestosDescriptivo", b =>
-                {
-                    b.HasOne("RRHH.WebApi.Models.Puesto", "Puesto")
-                        .WithMany("PuestosDescriptivo")
-                        .HasForeignKey("ID_Puesto")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Puesto");
                 });
 
             modelBuilder.Entity("RRHH.WebApi.Models.User", b =>
@@ -651,14 +576,7 @@ namespace RRHH.WebApi.Migrations
 
             modelBuilder.Entity("RRHH.WebApi.Models.Puesto", b =>
                 {
-                    b.Navigation("Empleados");
-
-                    b.Navigation("PuestosDescriptivo");
-                });
-
-            modelBuilder.Entity("RRHH.WebApi.Models.PuestosDescriptivo", b =>
-                {
-                    b.Navigation("PuestosActividad");
+                    b.Navigation("Empleado");
                 });
 
             modelBuilder.Entity("RRHH.WebApi.Models.Status", b =>

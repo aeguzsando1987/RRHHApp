@@ -63,6 +63,9 @@ namespace RRHH.WebApi.Models {
 
         public User? User { get; set; }
 
+        public ICollection<ContactosEmpleado> Contactos { get; set;} = new List<ContactosEmpleado>();
+        
+
     }
 
 
