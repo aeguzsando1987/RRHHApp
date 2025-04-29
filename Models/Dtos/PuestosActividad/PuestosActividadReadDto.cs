@@ -20,6 +20,7 @@ namespace RRHH.WebApi.Models.Dtos.PuestosActividad
         /// <summary>
         /// Descripcion de la actividad.
         /// </summary>
+        public string Titulo { get; set; } = string.Empty;
         public string Resumen { get; set; } = string.Empty;
 
         public DateTime Fecha_Actualizacion { get; set; } = DateTime.Now;

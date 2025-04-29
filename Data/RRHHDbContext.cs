@@ -138,7 +138,7 @@ namespace RRHH.WebApi.Data {
             modelBuilder.Entity<PuestosActividad>()
                 .HasOne(pa => pa.PuestosDescriptivo)
                 .WithMany(pd => pd.PuestosActividad)
-                .HasForeignKey(pa => pa.ID_PuestoDescriptivo)
+                .HasForeignKey(pa => pa.ID_PuestosDescriptivo)
                 // Si se elimina un Puestos Descriptivo, se eliminaran todos los Puestos Actividad relacionados
                 .OnDelete(DeleteBehavior.Cascade);
 

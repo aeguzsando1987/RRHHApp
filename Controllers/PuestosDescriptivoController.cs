@@ -139,6 +139,13 @@ namespace RRHH.WebApi.Controllers
             return NoContent();
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+           await _repository.DeleteAsync(id);
+           return NoContent();
+        }
+
 
     }
 
