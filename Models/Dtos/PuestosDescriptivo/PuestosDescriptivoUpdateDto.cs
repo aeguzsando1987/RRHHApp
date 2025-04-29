@@ -7,7 +7,7 @@ namespace RRHH.WebApi.Models.Dtos.PuestosDescriptivo
     
     {
         [Required]
-        public int Id_Puesto { get; set; }
+        public int ID_Puesto { get; set; }
         [Required]
         [StringLength(200)]
         public string Resumen {get; set;} = string.Empty;

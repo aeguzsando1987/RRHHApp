@@ -126,12 +126,12 @@ namespace RRHH.WebApi.Data {
                 // Si se elimina una Jerarquia, se eliminaran todos los Puestos relacionados
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Relacion entre Puesto y Puestos Descriptivo: un Puesto puede tener varios Puestos Descriptivo (1:N)
-            modelBuilder.Entity<PuestosDescriptivo>()
-                .HasOne(pd => pd.Puesto)
-                .WithMany(p => p.PuestosDescriptivo)
-                .HasForeignKey(pd => pd.ID_Puesto)
-                // Si se elimina un Puesto, se eliminaran todos los Puestos Descriptivo relacionados
+            // Relacion entre Puesto y Puestos Descriptivo: un puesto tiene su correspondiente descriptivo (1:1)
+            modelBuilder.Entity<Puesto>()
+                .HasOne(p => p.PuestosDescriptivo)    
+                .WithOne(pd => pd.Puesto)
+                .HasForeignKey<PuestosDescriptivo>(pd => pd.ID_Puesto)
+                // Si se elimina un Puesto, se eliminara su correspondiente Puestos Descriptivo
                 .OnDelete(DeleteBehavior.Cascade);
 
             // Relacion entre Puestos Descriptivo y Puestos Actividad: un Puestos Descriptivo puede tener varios Puestos Actividad (1:N)

@@ -28,6 +28,6 @@ namespace RRHH.WebApi.Models {
         public Jerarquia Jerarquia {get; set; } = null!;
         public ICollection<Empleado> Empleados {get; set; } = new List<Empleado>();
 
-        public ICollection<PuestosDescriptivo> PuestosDescriptivo {get; set; } = new List<PuestosDescriptivo>();
+        public PuestosDescriptivo PuestosDescriptivo {get; set; } = null!;
     }
 }

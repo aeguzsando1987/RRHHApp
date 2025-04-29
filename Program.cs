@@ -26,6 +26,7 @@ builder.Services.AddScoped<AreaRepository>();
 builder.Services.AddScoped<DepartamentoRepository>();
 builder.Services.AddScoped<JerarquiaRepository>();
 builder.Services.AddScoped<PuestoRepository>();
+builder.Services.AddScoped<PuestosDescriptivoRepository>();
 
 // Agregar los controladores
 builder.Services.AddControllers()
@@ -34,10 +35,7 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 
         options.JsonSerializerOptions.MaxDepth = 32;
-    });
-    
-builder.Services
-    .AddControllers()
+    })
     .AddNewtonsoftJson();
 
 // Agregar los generadores de Swagger

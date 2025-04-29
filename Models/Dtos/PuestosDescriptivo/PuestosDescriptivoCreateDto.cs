@@ -9,7 +9,7 @@ namespace RRHH.WebApi.Models.Dtos.PuestosDescriptivo
         public int ID_Puesto { get; set; }
 
         [Required]
-        [StringLength(200)]  
+        [StringLength(100)]
         public string Resumen {get; set;} = string.Empty;
 
         public DateTime Fecha_Actualizacion { get; set; } = DateTime.Now;

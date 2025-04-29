@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RRHH.WebApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b7b53a82adc487d5f4dc71f8082692cb6a3d786a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+436cdde34995a520f5319dbf852982734752422e")]
 [assembly: System.Reflection.AssemblyProductAttribute("RRHH.WebApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RRHH.WebApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

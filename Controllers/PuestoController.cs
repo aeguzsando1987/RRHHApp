@@ -7,10 +7,10 @@ using RRHH.WebApi.Models.Dtos.Puesto;
 namespace RRHH.WebApi.Controllers
 {
     /// <summary>
-    /// Controlador para la creacion, edicion y eliminacion de departamentos.
+    /// Controlador para la creacion, edicion y eliminacion de puestos.
     /// </summary>
-    // La ruta base de este controlador es "api/Departamento".
-    // Todas las rutas definidas en este controlador seran "api/Departamento/<ruta-definida>".
+    // La ruta base de este controlador es "api/Puesto".
+    // Todas las rutas definidas en este controlador seran "api/Puesto/<ruta-definida>".
     [Route("api/[controller]")]
     // Este controlador es un controlador de API, es decir que se encarga de recibir 
     // solicitudes HTTP y de responder en formato JSON.
@@ -22,7 +22,7 @@ namespace RRHH.WebApi.Controllers
 
        /// <summary>
        /// Constructor del controlador, que recibe una instancia de 
-       /// la interfaz de la base de datos de Areas.
+       /// la interfaz de la base de datos de Puestos.
        /// </summary>
        public PuestoController(PuestoRepository repository)
        {
@@ -30,15 +30,15 @@ namespace RRHH.WebApi.Controllers
        }
        
        /// <summary>
-       /// Obtiene todas las departamentos de la base de datos.
+       /// Obtiene todas los puestos de la base de datos.
        /// </summary>
-       /// <returns>Lista de departamentos.</returns>
+       /// <returns>Lista de puestos.</returns>
        [HttpGet]
        public async Task<ActionResult<IEnumerable<Puesto>>> GetAll()
        {
-            // Llamar a la interfaz de la base de datos para obtener todas las departamentos.
+            // Llamar a la interfaz de la base de datos para obtener todas los puestos.
             var puestos = await _repository.GetAllAsync();
-            // Mapear las departamentos a DTO para enviar al cliente.
+            // Mapear los puestos a DTO para enviar al cliente.
             var dtos = puestos.Select(a => new PuestoReadDto {
                 ID = a.ID,
                 Clave = a.Clave,
@@ -52,21 +52,21 @@ namespace RRHH.WebApi.Controllers
        }
 
        /// <summary>
-       /// Obtiene una departamento en particular por su id.
+       /// Obtiene un puesto en particular por su id.
        /// </summary>
-       /// <param name="id">Id de la departamento.</param>
-       /// <returns>Departamento encontrada, o 404 si no existe.</returns>
+       /// <param name="id">Id del puesto.</param>
+       /// <returns>Puesto encontrada, o 404 si no existe.</returns>
        [HttpGet("{id}")]
         public async Task<ActionResult<PuestoReadDto>> GetById(int id)
         {
-            // Llamar a la interfaz de la base de datos para obtener la departamento por su id.
+            // Llamar a la interfaz de la base de datos para obtener el puesto por su id.
             var puesto = await _repository.GetByIdAsync(id);
             if (puesto == null)
             {
-                // Si no se encuentra la departamento, devolver un 404.
+                // Si no se encuentra el puesto, devolver un 404.
                 return NotFound();
             }
-            // Mapear la departamento a DTO para enviar al cliente.
+            // Mapear el puesto a DTO para enviar al cliente.
             var dto = new PuestoReadDto {
                 ID = puesto.ID,
                 Clave = puesto.Clave,
@@ -81,14 +81,14 @@ namespace RRHH.WebApi.Controllers
             
 
          /// <summary>
-         /// Crea una nueva departamento en la base de datos.
+         /// Crea un nuevo puesto en la base de datos.
          /// </summary>
-         /// <param name="dto">Objeto con datos de la departamento.</param>
+         /// <param name="dto">Objeto con datos del puesto.</param>
          /// <returns>Objeto creado, con su id, o 400 si no es posible crearlo.</returns>
          [HttpPost]
         public async Task<ActionResult<PuestoReadDto>> Create(PuestoCreateDto dto)
         {
-            // Crear una nueva departamento con los datos del dto.
+            // Crear un nuevo puesto con los datos del dto.
             var puesto = new Puesto 
             {
                 Id_Departamento = dto.Id_Departamento,
@@ -96,10 +96,10 @@ namespace RRHH.WebApi.Controllers
                 Titulo = dto.Titulo,
                 Descripcion = dto.Descripcion
             };
-            // Agregar la departamento a la base de datos.
+            // Agregar el puesto a la base de datos.
             await _repository.AddSync(puesto);
 
-            // Mapear la departamento a DTO para enviar al cliente.
+            // Mapear el puesto a DTO para enviar al cliente.
             var readDto = new PuestoReadDto
             {
                 ID = puesto.ID,
@@ -113,15 +113,15 @@ namespace RRHH.WebApi.Controllers
         }
 
          /// <summary>
-         /// Actualiza una departamento existente en la base de datos.
+         /// Actualiza un puesto existente en la base de datos.
          /// </summary>
-         /// <param name="id">Id de la departamento a actualizar.</param>
-         /// <param name="dto">Objeto con datos de la departamento.</param>
+         /// <param name="id">Id del puesto a actualizar.</param>
+         /// <param name="dto">Objeto con datos del puesto.</param>
          /// <returns>204 No Content</returns>
-         [HttpPut("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, PuestoUpdateDto dto)
         {
-            // Buscar la departamento a actualizar por su id.
+            // Buscar el puesto a actualizar por su id.
             var puesto = await _repository.GetByIdAsync(id);
             if (puesto == null) return NotFound();
 
@@ -130,7 +130,7 @@ namespace RRHH.WebApi.Controllers
             puesto.Titulo = dto.Titulo;
             puesto.Descripcion = dto.Descripcion;
 
-            // Actualizar la departamento en la base de datos.
+            // Actualizar el puesto en la base de datos.
             await _repository.UpdateAsync(puesto);
             // Enviar un 204 No Content.
             return NoContent();
@@ -140,17 +140,17 @@ namespace RRHH.WebApi.Controllers
  
 
        /// <summary>
-       /// Actualiza una departamento existente en la base de datos mediante un JSON Patch.
+       /// Actualiza un puesto existente en la base de datos mediante un JSON Patch.
        /// </summary>
-       /// <param name="id">Id de la departamento a actualizar. Tipo int.</param>
-       /// <param name="patchDoc">Documento JSON Patch con los cambios a realizar. Tipo JsonPatchDocument<DepartamentoUpdateDto>.</param>
+       /// <param name="id">Id del puesto a actualizar. Tipo int.</param>
+       /// <param name="patchDoc">Documento JSON Patch con los cambios a realizar. Tipo JsonPatchDocument<PuestoUpdateDto>.</param>
        /// <returns>204 No Content</returns>
         [HttpPatch("{id}")]
         public async Task<IActionResult> Patch(int id, [FromBody] JsonPatchDocument<PuestoUpdateDto> patchDoc)
         {
             if (patchDoc == null) return BadRequest();
 
-            // Buscar la departamento a actualizar por su id.
+            // Buscar el puesto a actualizar por su id.
             var puesto = await _repository.GetByIdAsync(id);
             if (puesto == null) return NotFound();
 
@@ -174,16 +174,16 @@ namespace RRHH.WebApi.Controllers
             puesto.Titulo = dto.Titulo;
             puesto.Descripcion = dto.Descripcion;
 
-            // Actualizar la departamento en la base de datos.
+            // Actualizar el puesto en la base de datos.
             await _repository.UpdateAsync(puesto);
             // Enviar un 204 No Content.
             return NoContent();
         }
 
         /// <summary>
-        /// Elimina una departamento existente en la base de datos.
+        /// Elimina un puesto existente en la base de datos.
         /// </summary>
-        /// <param name="id">Id de la departamento a eliminar. Tipo int.</param>
+        /// <param name="id">Id del puesto a eliminar. Tipo int.</param>
         /// <returns>204 No Content</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
