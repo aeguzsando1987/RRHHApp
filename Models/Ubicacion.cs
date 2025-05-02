@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 
 namespace RRHH.WebApi.Models {
@@ -10,11 +11,11 @@ namespace RRHH.WebApi.Models {
         [StringLength(50)]
         public string Clave { get; set; } = string.Empty;
         [Required]
-        [StringLength(50)]
-        public required string Nombre { get; set; }
         [StringLength(200)]
-        public string Descripcion {get; set; } = string.Empty;
-
+        public string Ubicacion_Referencial {get; set; } = string.Empty;
+        [ForeignKey(nameof(Empresa))]
+        public int Id_Empresa { get; set; }
+        public Empresa Empresa {get; set; } = null!;
         public ICollection<Empleado> Empleados {get; set; } = new List<Empleado>();
     }
 

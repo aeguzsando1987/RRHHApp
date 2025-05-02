@@ -3,11 +3,6 @@ using Microsoft.AspNetCore.JsonPatch;
 using RRHH.WebApi.Models;
 using RRHH.WebApi.Models.Dtos.PuestosActividad;
 using RRHH.WebApi.Repositories;
-using System.Windows.Markup;
-using RRHH.WebApi.Models.Dtos.PuestosDescriptivo;
-using Microsoft.OpenApi.Writers;
-
-
 namespace RRHH.WebApi.Controllers
 {
 
@@ -49,7 +44,7 @@ namespace RRHH.WebApi.Controllers
 
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<PuestosDescriptivoReadDto>> GetById(int id)
+        public async Task<ActionResult<PuestosActividadReadDto>> GetById(int id)
         {
             var psa = await _repository.GetByIDAsync(id);
             if(psa == null)

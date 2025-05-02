@@ -10,7 +10,7 @@ namespace RRHH.WebApi.Models {
     public class PuestosActividad {
         [Key]
         public int ID { get; set; }
-        [ForeignKey(nameof(Puesto))]
+        [ForeignKey(nameof(PuestosDescriptivo))]
         public int ID_PuestosDescriptivo { get; set; }
         [StringLength(50)]
         public string Titulo { get; set; } = string.Empty;

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RRHH.WebApi.Data;
 
@@ -11,9 +12,11 @@ using RRHH.WebApi.Data;
 namespace RRHH.WebApi.Migrations
 {
     [DbContext(typeof(RRHHDbContext))]
-    partial class RRHHDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250430161628_AddPuestoDescriptivoFK")]
+    partial class AddPuestoDescriptivoFK
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -180,7 +183,7 @@ namespace RRHH.WebApi.Migrations
                     b.Property<int>("Id_Status")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Id_Ubicacion")
+                    b.Property<int>("Id_Ubicacion")
                         .HasColumnType("int");
 
                     b.Property<string>("NSS")
@@ -214,82 +217,6 @@ namespace RRHH.WebApi.Migrations
                     b.HasIndex("Id_Ubicacion");
 
                     b.ToTable("Empleados");
-                });
-
-            modelBuilder.Entity("RRHH.WebApi.Models.Empleados_Direccion", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<string>("Calle")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Clave")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("Codigo_Postal")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Colonia")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Estado")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<DateTime>("Fecha_Modificacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Id_Empleado")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Municipio")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Numero_Ext")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("Numero_Int")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("Pais")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Referencia")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("Telefono_Fijo")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("Id_Empleado");
-
-                    b.ToTable("Empleados_Direccion");
                 });
 
             modelBuilder.Entity("RRHH.WebApi.Models.Empresa", b =>
@@ -331,80 +258,6 @@ namespace RRHH.WebApi.Migrations
                     b.HasIndex("Id_Org");
 
                     b.ToTable("Empresas");
-                });
-
-            modelBuilder.Entity("RRHH.WebApi.Models.Empresas_Direccion", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<string>("Calle")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Clave")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("Codigo_Postal")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Colonia")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Estado")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<DateTime>("Fecha_Modificacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Id_Empresa")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Municipio")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Numero_Ext")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("Numero_Int")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("Pais")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Referencia")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Tipo_Direccion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("Id_Empresa");
-
-                    b.ToTable("Empresas_Direcciones");
                 });
 
             modelBuilder.Entity("RRHH.WebApi.Models.Jerarquia", b =>
@@ -568,15 +421,10 @@ namespace RRHH.WebApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<string>("Descripcion_Status")
+                    b.Property<string>("Estado")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Status_Emp")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("ID");
 
@@ -596,17 +444,17 @@ namespace RRHH.WebApi.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("Id_Empresa")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Ubicacion_Referencial")
+                    b.Property<string>("Descripcion")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.HasKey("ID");
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.HasIndex("Id_Empresa");
+                    b.HasKey("ID");
 
                     b.ToTable("Ubicaciones");
                 });
@@ -698,7 +546,8 @@ namespace RRHH.WebApi.Migrations
                     b.HasOne("RRHH.WebApi.Models.Ubicacion", "Ubicacion")
                         .WithMany("Empleados")
                         .HasForeignKey("Id_Ubicacion")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Jefe");
 
@@ -707,17 +556,6 @@ namespace RRHH.WebApi.Migrations
                     b.Navigation("Status");
 
                     b.Navigation("Ubicacion");
-                });
-
-            modelBuilder.Entity("RRHH.WebApi.Models.Empleados_Direccion", b =>
-                {
-                    b.HasOne("RRHH.WebApi.Models.Empleado", "Empleado")
-                        .WithMany("Direcciones")
-                        .HasForeignKey("Id_Empleado")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Empleado");
                 });
 
             modelBuilder.Entity("RRHH.WebApi.Models.Empresa", b =>
@@ -729,17 +567,6 @@ namespace RRHH.WebApi.Migrations
                         .IsRequired();
 
                     b.Navigation("Organizacion");
-                });
-
-            modelBuilder.Entity("RRHH.WebApi.Models.Empresas_Direccion", b =>
-                {
-                    b.HasOne("RRHH.WebApi.Models.Empresa", "Empresa")
-                        .WithMany("Empresas_Direcciones")
-                        .HasForeignKey("Id_Empresa")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Empresa");
                 });
 
             modelBuilder.Entity("RRHH.WebApi.Models.Puesto", b =>
@@ -783,17 +610,6 @@ namespace RRHH.WebApi.Migrations
                     b.Navigation("Puesto");
                 });
 
-            modelBuilder.Entity("RRHH.WebApi.Models.Ubicacion", b =>
-                {
-                    b.HasOne("RRHH.WebApi.Models.Empresa", "Empresa")
-                        .WithMany("Ubicaciones")
-                        .HasForeignKey("Id_Empresa")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Empresa");
-                });
-
             modelBuilder.Entity("RRHH.WebApi.Models.User", b =>
                 {
                     b.HasOne("RRHH.WebApi.Models.Empleado", "Empleado")
@@ -819,18 +635,12 @@ namespace RRHH.WebApi.Migrations
                 {
                     b.Navigation("Contactos");
 
-                    b.Navigation("Direcciones");
-
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("RRHH.WebApi.Models.Empresa", b =>
                 {
                     b.Navigation("Areas");
-
-                    b.Navigation("Empresas_Direcciones");
-
-                    b.Navigation("Ubicaciones");
                 });
 
             modelBuilder.Entity("RRHH.WebApi.Models.Jerarquia", b =>

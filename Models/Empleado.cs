@@ -51,7 +51,7 @@ namespace RRHH.WebApi.Models {
         public int? Id_Jefe { get; set; }
 
         [ForeignKey(nameof(Ubicacion))]
-        public int Id_Ubicacion { get; set; }
+        public int? Id_Ubicacion { get; set; }
 
         public byte[]? Fotografia { get; set; }
 
@@ -64,6 +64,7 @@ namespace RRHH.WebApi.Models {
         public User? User { get; set; }
 
         public ICollection<ContactosEmpleado> Contactos { get; set;} = new List<ContactosEmpleado>();
+        public ICollection<Empleados_Direccion> Direcciones { get; set;} = new List<Empleados_Direccion>();
         
 
     }

@@ -26,6 +26,11 @@ namespace RRHH.WebApi.Data {
         public DbSet<Empresa> Empresas { get; set; }
 
         /// <summary>
+        /// Propiedad que permite acceder a la tabla de direcciones de empresas
+        /// </summary>
+        public DbSet<Empresas_Direccion> Empresas_Direcciones { get; set; }
+
+        /// <summary>
         /// Propiedad que permite acceder a la tabla Areas
         /// </summary>
         public DbSet<Area> Areas { get; set; }
@@ -92,6 +97,12 @@ namespace RRHH.WebApi.Data {
                 .WithMany(o => o.Empresas)
                 .HasForeignKey(e => e.Id_Org)
                 // Si se elimina una Organizacion, se eliminaran todas las Empresas relacionadas
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Empresas_Direccion>()
+                .HasOne(ed => ed.Empresa)
+                .WithMany(e => e.Empresas_Direcciones)
+                .HasForeignKey(ed => ed.Id_Empresa)
                 .OnDelete(DeleteBehavior.Cascade);
 
             // Relacion entre Empresa y Area: una Empresa puede tener varias Areas (1:N)
@@ -192,7 +203,29 @@ namespace RRHH.WebApi.Data {
                 // tambien se eliminaran todos sus Contactos
                 .OnDelete(DeleteBehavior.Cascade);
 
+            // Relacion entre Empresa y Ubicacion: una empresa puede tener varias ubicaciones (1:N)
+            modelBuilder.Entity<Ubicacion>()
+                .HasOne(u => u.Empresa)
+                .WithMany(e => e.Ubicaciones)
+                .OnDelete(DeleteBehavior.Cascade);
             
+            // Relacion entre Ubicacion y Empleado: una ubicacion puede tener varios empleados (N:1)
+            // OnDelete con DeleteBehavior.SetNull indica que si se elimina una Ubicacion,
+            // los Empleados relacionados no seran eliminados, solo se borrara el enlace.
+            modelBuilder.Entity<Empleado>()
+                .HasOne(e => e.Ubicacion)
+                .WithMany(u => u.Empleados)
+                .HasForeignKey(e => e.Id_Ubicacion)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Relacion entre Empleado y Direcciones: un Empleado puede tener varias direcciones (N:1)
+            modelBuilder.Entity<Empleados_Direccion>()
+                .HasOne(ed => ed.Empleado)
+                .WithMany(e => e.Direcciones)
+                .HasForeignKey(ed => ed.Id_Empleado)
+                // OnDelete con DeleteBehavior.Cascade indica que si se elimina un Empleado
+                // tambien se eliminaran todos sus direcciones
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
