@@ -66,8 +66,14 @@ namespace RRHH.WebApi.Data {
         public DbSet<Empleado> Empleados { get; set; }
 
         /// <summary>
+        /// Propiedad que permite acceder a la tabla de direcciones de empleados
+        /// </summary>
+        public DbSet<Empleados_Direccion> Empleados_Direcciones { get; set; }
+
+        /// <summary>
         /// Propiedad que permite acceder a la tabla Ubicaciones
         /// </summary>
+        
         public DbSet<Ubicacion> Ubicaciones { get; set; } 
 
         /// <summary>

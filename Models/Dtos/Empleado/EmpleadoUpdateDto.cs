@@ -20,7 +20,7 @@ namespace RRHH.WebApi.Models.Dtos.Empleado
         
         public DateTime Fecha_Inicio { get; set; }
         
-        public DateTime Fecha_Termino { get; set; }
+        public DateTime? Fecha_Termino { get; set; }
         
         [StringLength(50)]
         public string Email_corporativo { get; set; } = string.Empty;
@@ -38,9 +38,9 @@ namespace RRHH.WebApi.Models.Dtos.Empleado
         
         public int Id_Puesto { get; set; }
         
-        public int Id_Jefe { get; set; }
+        public int? Id_Jefe { get; set; }
         
-        public int Id_Ubicacion { get; set; }
+        public int? Id_Ubicacion { get; set; }
         
         public byte[]? Fotografia { get; set; }
         
