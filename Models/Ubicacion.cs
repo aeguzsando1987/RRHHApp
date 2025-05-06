@@ -9,10 +9,9 @@ namespace RRHH.WebApi.Models {
         [Key]
         public int ID { get; set; }
         [StringLength(50)]
-        public string Clave { get; set; } = string.Empty;
-        [Required]
+        public string? Clave { get; set; }
         [StringLength(200)]
-        public string Ubicacion_Referencial {get; set; } = string.Empty;
+        public string? Ubicacion_Referencial {get; set; }
         [ForeignKey(nameof(Empresa))]
         public int Id_Empresa { get; set; }
         public Empresa Empresa {get; set; } = null!;

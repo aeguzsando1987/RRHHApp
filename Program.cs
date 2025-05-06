@@ -30,6 +30,7 @@ builder.Services.AddScoped<PuestosDescriptivoRepository>();
 builder.Services.AddScoped<PuestosActividadRepository>();
 builder.Services.AddScoped<StatusRepository>();
 builder.Services.AddScoped<EmpleadoRepository>();
+builder.Services.AddScoped<EmpleadoTipoRepository>();
 
 
 // Agregar los controladores

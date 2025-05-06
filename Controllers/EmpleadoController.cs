@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using RRHH.WebApi.Models;
 using RRHH.WebApi.Models.Dtos.Empleado;
+using RRHH.WebApi.Models.Dtos.EmpleadoPerfil;
 using RRHH.WebApi.Repositories;
 using Microsoft.AspNetCore.JsonPatch;
+using RRHH.WebApi.Models.Dtos.EmpladoTipo;
 
 
 namespace RRHH.WebApi.Controllers
@@ -18,43 +20,56 @@ namespace RRHH.WebApi.Controllers
     public class EmpleadoController : ControllerBase
     {
 
-
         private readonly EmpleadoRepository _repository;
+        private readonly EmpleadoTipoRepository _tipoRepository;
 
         /// <summary>
         /// Constructor del controlador de Empleados.
         /// </summary>
         /// <param name="repository">Instancia de la interfaz de acceso a la base de datos.</param>
-        public EmpleadoController(EmpleadoRepository repository)
+        /// <param name="tipoRepository">Instancia del repositorio de tipos de empleado.</param>
+        public EmpleadoController(EmpleadoRepository repository, EmpleadoTipoRepository tipoRepository)
         {
             _repository = repository;
+            _tipoRepository = tipoRepository;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EmpleadoReadDto>>> GetAll()
         {
-            var empleados = await _repository.GetAllAsync();
-            var dtos = empleados.Select(e => new EmpleadoReadDto {
-               ID = e.ID,
-               Clave = e.Clave,
-               Nombres = e.Nombres,
-               Apellido_Paterno = e.Apellido_Paterno,
-               Apellido_Materno = e.Apellido_Materno,
-               Fecha_Nacimiento = e.Fecha_Nacimiento,
-               Fecha_Inicio = e.Fecha_Inicio,
-               Fecha_Termino = e.Fecha_Termino,
-               Email_corporativo = e.Email_corporativo,
-               Tel = e.Tel,
-               NSS = e.NSS,
-               RFC = e.RFC,
-               Id_Status = e.Id_Status,
-               Id_Puesto = e.Id_Puesto,
-               Id_Jefe = e.Id_Jefe,
-               Id_Ubicacion = e.Id_Ubicacion,
-               Fotografia = e.Fotografia
-            });
-
-            return Ok(dtos);
+           var empleados = await _repository.GetAllAsync();
+           var dtos = empleados.Select(e => new EmpleadoReadDto {
+                ID = e.ID,
+                Id_Status = e.Id_Status,
+                Id_Puesto = e.Id_Puesto,
+                Id_Jefe = e.Id_Jefe,
+                Id_Ubicacion = e.Id_Ubicacion,
+                Perfil = e.Perfil != null ? new EmpleadoPerfilReadDto {
+                    Id_Empleado = e.Perfil.Id_Empleado,
+                    Clave = e.Perfil.Clave,
+                    Nombres = e.Perfil.Nombres,
+                    Apellido_Paterno = e.Perfil.Apellido_Paterno,
+                    Apellido_Materno = e.Perfil.Apellido_Materno,
+                    Fecha_Nacimiento = e.Perfil.Fecha_Nacimiento,
+                    Sexo = e.Perfil.Sexo,
+                    Edo_Civil = e.Perfil.Edo_Civil,
+                    Fecha_Inicio = e.Perfil.Fecha_Inicio,
+                    Fecha_Termino = e.Perfil.Fecha_Termino,
+                    Email = e.Perfil.Email,
+                    Tel = e.Perfil.Tel,
+                    NSS = e.Perfil.NSS,
+                    RFC = e.Perfil.RFC,
+                    Fotografia = e.Perfil.Fotografia,
+                    Id_Tipo_Empleado = e.Perfil.Id_Tipo_Empleado,
+                    Tipo_Empleado = e.Perfil.Tipo != null ? new EmpleadoTipoReadDto {
+                        ID = e.Perfil.Tipo.ID,
+                        Titulo = e.Perfil.Tipo.Titulo,
+                        Descripcion = e.Perfil.Tipo.Descripcion,
+                        Prefijo = e.Perfil.Tipo.Prefijo
+                    } : null
+                } : null
+           });
+           return Ok(dtos);
         }
 
         [HttpGet("{id}")]
@@ -65,22 +80,34 @@ namespace RRHH.WebApi.Controllers
 
             var dto = new EmpleadoReadDto{
                 ID = empleado.ID,
-                Clave = empleado.Clave,
-                Nombres = empleado.Nombres,
-                Apellido_Paterno = empleado.Apellido_Paterno,
-                Apellido_Materno = empleado.Apellido_Materno,
-                Fecha_Nacimiento = empleado.Fecha_Nacimiento,
-                Fecha_Inicio = empleado.Fecha_Inicio,
-                Fecha_Termino = empleado.Fecha_Termino,
-                Email_corporativo = empleado.Email_corporativo,
-                Tel = empleado.Tel,
-                NSS = empleado.NSS,
-                RFC = empleado.RFC,
                 Id_Status = empleado.Id_Status,
                 Id_Puesto = empleado.Id_Puesto,
                 Id_Jefe = empleado.Id_Jefe,
                 Id_Ubicacion = empleado.Id_Ubicacion,
-                Fotografia = empleado.Fotografia
+                Perfil = empleado.Perfil != null ? new EmpleadoPerfilReadDto{
+                    Id_Empleado = empleado.Perfil.Id_Empleado,
+                    Clave = empleado.Perfil.Clave,
+                    Nombres = empleado.Perfil.Nombres,
+                    Apellido_Paterno = empleado.Perfil.Apellido_Paterno,
+                    Apellido_Materno = empleado.Perfil.Apellido_Materno,
+                    Fecha_Nacimiento = empleado.Perfil.Fecha_Nacimiento,
+                    Sexo = empleado.Perfil.Sexo,
+                    Edo_Civil = empleado.Perfil.Edo_Civil,
+                    Fecha_Inicio = empleado.Perfil.Fecha_Inicio,
+                    Fecha_Termino = empleado.Perfil.Fecha_Termino,
+                    Email = empleado.Perfil.Email,
+                    Tel = empleado.Perfil.Tel,
+                    NSS = empleado.Perfil.NSS,
+                    RFC = empleado.Perfil.RFC,
+                    Fotografia = empleado.Perfil.Fotografia,
+                    Id_Tipo_Empleado = empleado.Perfil.Id_Tipo_Empleado,
+                    Tipo_Empleado = empleado.Perfil.Tipo != null ? new EmpleadoTipoReadDto {
+                        ID = empleado.Perfil.Tipo.ID,
+                        Titulo = empleado.Perfil.Tipo.Titulo,
+                        Descripcion = empleado.Perfil.Tipo.Descripcion,
+                        Prefijo = empleado.Perfil.Tipo.Prefijo
+                    } : null
+                } : null
             };
 
             return Ok(dto);
@@ -89,130 +116,203 @@ namespace RRHH.WebApi.Controllers
         [HttpPost]
         public async Task<ActionResult<EmpleadoReadDto>> Create([FromBody] EmpleadoCreateDto dto)
         {
-            var empleado = new Empleado
+           var empleado = new Empleado
+           {
+            Id_Status = dto.Id_Status,
+            Id_Puesto = dto.Id_Puesto,
+            Id_Jefe = dto.Id_Jefe,
+            Id_Ubicacion = dto.Id_Ubicacion,
+            Perfil = new Empleado_Perfil
             {
-                Clave = dto.Clave,
-                Nombres = dto.Nombres,
-                Apellido_Paterno = dto.Apellido_Paterno,
-                Apellido_Materno = dto.Apellido_Materno,
-                Fecha_Nacimiento = dto.Fecha_Nacimiento,
-                Fecha_Inicio = dto.Fecha_Inicio,
-                Fecha_Termino = dto.Fecha_Termino,
-                Email_corporativo = dto.Email_corporativo,
-                Tel = dto.Tel,
-                NSS = dto.NSS,
-                RFC = dto.RFC,
-                Id_Status = dto.Id_Status,
-                Id_Puesto = dto.Id_Puesto,
-                Id_Jefe = dto.Id_Jefe,
-                Id_Ubicacion = dto.Id_Ubicacion,
-                Fotografia = dto.Fotografia
-            };
+                Nombres = dto.Perfil.Nombres,
+                Apellido_Paterno = dto.Perfil.Apellido_Paterno,
+                Apellido_Materno = dto.Perfil.Apellido_Materno,
+                Fecha_Nacimiento = dto.Perfil.Fecha_Nacimiento,
+                Sexo = dto.Perfil.Sexo,
+                Edo_Civil = dto.Perfil.Edo_Civil,
+                Fecha_Inicio = dto.Perfil.Fecha_Inicio,
+                Fecha_Termino = dto.Perfil.Fecha_Termino,
+                Email = dto.Perfil.Email,
+                Tel = dto.Perfil.Tel,
+                NSS = dto.Perfil.NSS,
+                RFC = dto.Perfil.RFC,
+                Fotografia = dto.Perfil.Fotografia,
+                Id_Tipo_Empleado = dto.Perfil.Id_Tipo_Empleado
+            }
+           };
 
-            await _repository.AddAsync(empleado);
+           await _repository.AddAsync(empleado);
 
-            var readDto = new EmpleadoReadDto
-            {
-                ID = empleado.ID,
-                Clave = empleado.Clave,
-                Nombres = empleado.Nombres,
-                Apellido_Paterno = empleado.Apellido_Paterno,
-                Apellido_Materno = empleado.Apellido_Materno,
-                Fecha_Nacimiento = empleado.Fecha_Nacimiento,
-                Fecha_Inicio = empleado.Fecha_Inicio,
-                Fecha_Termino = empleado.Fecha_Termino,
-                Email_corporativo = empleado.Email_corporativo,
-                Tel = empleado.Tel,
-                NSS = empleado.NSS,
-                RFC = empleado.RFC,
-                Id_Status = empleado.Id_Status,
-                Id_Puesto = empleado.Id_Puesto,
-                Id_Jefe = empleado.Id_Jefe,
-                Id_Ubicacion = empleado.Id_Ubicacion,
-                Fotografia = empleado.Fotografia
-            };
-
-            return CreatedAtAction(nameof(GetById), new {id = empleado.ID}, readDto);
+           var readDto = new EmpleadoReadDto
+           {
+               ID = empleado.ID,
+               Id_Status = empleado.Id_Status,
+               Id_Puesto = empleado.Id_Puesto,
+               Id_Jefe = empleado.Id_Jefe,
+               Id_Ubicacion = empleado.Id_Ubicacion,
+               Perfil = new EmpleadoPerfilReadDto
+               {
+                   Id_Empleado = empleado.Perfil.Id_Empleado,
+                   Clave = empleado.Perfil.Clave,
+                   Nombres = empleado.Perfil.Nombres,
+                   Apellido_Paterno = empleado.Perfil.Apellido_Paterno,
+                   Apellido_Materno = empleado.Perfil.Apellido_Materno,
+                   Fecha_Nacimiento = empleado.Perfil.Fecha_Nacimiento,
+                   Sexo = empleado.Perfil.Sexo,
+                   Edo_Civil = empleado.Perfil.Edo_Civil,
+                   Fecha_Inicio = empleado.Perfil.Fecha_Inicio,
+                   Fecha_Termino = empleado.Perfil.Fecha_Termino,
+                   Email = empleado.Perfil.Email,
+                   Tel = empleado.Perfil.Tel,
+                   NSS = empleado.Perfil.NSS,
+                   RFC = empleado.Perfil.RFC,
+                   Fotografia = empleado.Perfil.Fotografia,
+                   Id_Tipo_Empleado = empleado.Perfil.Id_Tipo_Empleado,
+                   Tipo_Empleado = empleado.Perfil.Tipo != null ? new EmpleadoTipoReadDto {
+                       ID = empleado.Perfil.Tipo.ID,
+                       Titulo = empleado.Perfil.Tipo.Titulo,
+                       Descripcion = empleado.Perfil.Tipo.Descripcion,
+                       Prefijo = empleado.Perfil.Tipo.Prefijo
+                   } : null
+               }
+           };
+           return CreatedAtAction(nameof(GetById), new {id = empleado.ID}, readDto);
         }
 
         [HttpPut("{id}")]
         public async Task<ActionResult> Update(int id, EmpleadoUpdateDto dto)
         {
-            var empresa = await _repository.GetByIdAsync(id);
-            if (empresa == null) return NotFound();
+           var empleado = await _repository.GetByIdAsync(id);
+           if (empleado == null) return NotFound();
 
-            empresa.Clave = dto.Clave;
-            empresa.Nombres = dto.Nombres;
-            empresa.Apellido_Paterno = dto.Apellido_Paterno;
-            empresa.Apellido_Materno = dto.Apellido_Materno;
-            empresa.Fecha_Nacimiento = dto.Fecha_Nacimiento;
-            empresa.Fecha_Inicio = dto.Fecha_Inicio;
-            empresa.Fecha_Termino = dto.Fecha_Termino;
-            empresa.Email_corporativo = dto.Email_corporativo;
-            empresa.Tel = dto.Tel;
-            empresa.NSS = dto.NSS;
-            empresa.RFC = dto.RFC;
-            empresa.Id_Status = dto.Id_Status;
-            empresa.Id_Puesto = dto.Id_Puesto;
-            empresa.Id_Jefe = dto.Id_Jefe;
-            empresa.Id_Ubicacion = dto.Id_Ubicacion;
-            empresa.Fotografia = dto.Fotografia;
+           if (empleado.Perfil == null)
+           {
+                empleado.Perfil = new Empleado_Perfil
+                {
+                    Id_Empleado = empleado.ID,
+                    Nombres = dto.Perfil.Nombres,
+                    Apellido_Paterno = dto.Perfil.Apellido_Paterno,
+                    Apellido_Materno = dto.Perfil.Apellido_Materno,
+                    Fecha_Nacimiento = dto.Perfil.Fecha_Nacimiento,
+                    Sexo = dto.Perfil.Sexo,
+                    Edo_Civil = dto.Perfil.Edo_Civil,
+                    Fecha_Inicio = dto.Perfil.Fecha_Inicio ?? DateTime.Now,
+                    Fecha_Termino = dto.Perfil.Fecha_Termino,
+                    Email = dto.Perfil.Email,
+                    Tel = dto.Perfil.Tel,
+                    NSS = dto.Perfil.NSS,
+                    RFC = dto.Perfil.RFC,
+                    Fotografia = dto.Perfil.Fotografia,
+                    Id_Tipo_Empleado = dto.Perfil.Id_Tipo_Empleado
+                };
+           }
+           else
+           {
+                empleado.Perfil.Nombres = dto.Perfil.Nombres;
+                empleado.Perfil.Apellido_Paterno = dto.Perfil.Apellido_Paterno;
+                empleado.Perfil.Apellido_Materno = dto.Perfil.Apellido_Materno;
+                empleado.Perfil.Fecha_Nacimiento = dto.Perfil.Fecha_Nacimiento;
+                empleado.Perfil.Sexo = dto.Perfil.Sexo;
+                empleado.Perfil.Edo_Civil = dto.Perfil.Edo_Civil;
+                empleado.Perfil.Fecha_Inicio = dto.Perfil.Fecha_Inicio ?? DateTime.Now;
+                empleado.Perfil.Fecha_Termino = dto.Perfil.Fecha_Termino;
+                empleado.Perfil.Email = dto.Perfil.Email;
+                empleado.Perfil.Tel = dto.Perfil.Tel;
+                empleado.Perfil.NSS = dto.Perfil.NSS;
+                empleado.Perfil.RFC = dto.Perfil.RFC;
+                empleado.Perfil.Fotografia = dto.Perfil.Fotografia;
+                empleado.Perfil.Id_Tipo_Empleado = dto.Perfil.Id_Tipo_Empleado;
+           }
 
-            await _repository.UpdateAsync(empresa);
-            return NoContent();
+           await _repository.UpdateAsync(empleado);
+           return NoContent();
         }
-
 
         [HttpPatch("{id}")]
         public async Task<IActionResult> Patch(int id, [FromBody] JsonPatchDocument<EmpleadoUpdateDto> patchDoc)
         {
-            if (patchDoc == null) return BadRequest();
+           if (patchDoc == null) return BadRequest();
 
-            var empleado = await _repository.GetByIdAsync(id);
-            if(empleado == null) return NotFound();
+           var empleado = await _repository.GetByIdAsync(id);
+           if(empleado == null) return NotFound();
 
-            var dto = new EmpleadoUpdateDto
-            {
-                Clave = empleado.Clave,
-                Nombres = empleado.Nombres,
-                Apellido_Paterno = empleado.Apellido_Paterno,
-                Apellido_Materno = empleado.Apellido_Materno,
-                Fecha_Nacimiento = empleado.Fecha_Nacimiento,
-                Fecha_Inicio = empleado.Fecha_Inicio,
-                Fecha_Termino = empleado.Fecha_Termino,
-                Email_corporativo = empleado.Email_corporativo,
-                Tel = empleado.Tel,
-                NSS = empleado.NSS,
-                RFC = empleado.RFC,
+           var dto = new EmpleadoUpdateDto
+           {
                 Id_Status = empleado.Id_Status,
                 Id_Puesto = empleado.Id_Puesto,
                 Id_Jefe = empleado.Id_Jefe,
                 Id_Ubicacion = empleado.Id_Ubicacion,
-                Fotografia = empleado.Fotografia
-            };
+                Perfil = empleado.Perfil != null ? new EmpleadoPerfilUpdateDto
+                {
+                    Nombres = empleado.Perfil.Nombres,
+                    Apellido_Paterno = empleado.Perfil.Apellido_Paterno,
+                    Apellido_Materno = empleado.Perfil.Apellido_Materno,
+                    Fecha_Nacimiento = empleado.Perfil.Fecha_Nacimiento,
+                    Sexo = empleado.Perfil.Sexo,
+                    Edo_Civil = empleado.Perfil.Edo_Civil,
+                    Fecha_Inicio = empleado.Perfil.Fecha_Inicio,
+                    Fecha_Termino = empleado.Perfil.Fecha_Termino,
+                    Email = empleado.Perfil.Email,
+                    Tel = empleado.Perfil.Tel,
+                    NSS = empleado.Perfil.NSS,
+                    RFC = empleado.Perfil.RFC,
+                    Fotografia = empleado.Perfil.Fotografia,
+                    Id_Tipo_Empleado = empleado.Perfil.Id_Tipo_Empleado
+                } : null
+           };
 
-            patchDoc.ApplyTo(dto, ModelState);
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+           patchDoc.ApplyTo(dto, ModelState);
+           if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            empleado.Clave = dto.Clave;
-            empleado.Nombres = dto.Nombres;
-            empleado.Apellido_Paterno = dto.Apellido_Paterno;
-            empleado.Apellido_Materno = dto.Apellido_Materno;
-            empleado.Fecha_Nacimiento = dto.Fecha_Nacimiento;
-            empleado.Fecha_Inicio = dto.Fecha_Inicio;
-            empleado.Fecha_Termino = dto.Fecha_Termino;
-            empleado.Email_corporativo = dto.Email_corporativo;
-            empleado.Tel = dto.Tel;
-            empleado.NSS = dto.NSS;
-            empleado.RFC = dto.RFC;
-            empleado.Id_Status = dto.Id_Status;
-            empleado.Id_Puesto = dto.Id_Puesto;
-            empleado.Id_Jefe = dto.Id_Jefe;
-            empleado.Id_Ubicacion = dto.Id_Ubicacion;
-            empleado.Fotografia = dto.Fotografia;
+           empleado.Id_Status = dto.Id_Status;
+           empleado.Id_Puesto = dto.Id_Puesto;
+           empleado.Id_Jefe = dto.Id_Jefe;
+           empleado.Id_Ubicacion = dto.Id_Ubicacion;
 
-            await _repository.UpdateAsync(empleado);
-            return NoContent();
+           if (dto.Perfil != null)
+           {
+                if (empleado.Perfil == null)
+                {
+                    empleado.Perfil = new Empleado_Perfil
+                    {
+                        Id_Empleado = empleado.ID,
+                        Nombres = dto.Perfil.Nombres,
+                        Apellido_Paterno = dto.Perfil.Apellido_Paterno,
+                        Apellido_Materno = dto.Perfil.Apellido_Materno,
+                        Fecha_Nacimiento = dto.Perfil.Fecha_Nacimiento,
+                        Sexo = dto.Perfil.Sexo,
+                        Edo_Civil = dto.Perfil.Edo_Civil,
+                        Fecha_Inicio = dto.Perfil.Fecha_Inicio ?? DateTime.Now,
+                        Fecha_Termino = dto.Perfil.Fecha_Termino,
+                        Email = dto.Perfil.Email,
+                        Tel = dto.Perfil.Tel,
+                        NSS = dto.Perfil.NSS,
+                        RFC = dto.Perfil.RFC,
+                        Fotografia = dto.Perfil.Fotografia,
+                        Id_Tipo_Empleado = dto.Perfil.Id_Tipo_Empleado
+                    };
+                }
+                else
+                {
+                    empleado.Perfil.Nombres = dto.Perfil.Nombres;
+                    empleado.Perfil.Apellido_Paterno = dto.Perfil.Apellido_Paterno;
+                    empleado.Perfil.Apellido_Materno = dto.Perfil.Apellido_Materno;
+                    empleado.Perfil.Fecha_Nacimiento = dto.Perfil.Fecha_Nacimiento;
+                    empleado.Perfil.Sexo = dto.Perfil.Sexo;
+                    empleado.Perfil.Edo_Civil = dto.Perfil.Edo_Civil;
+                    empleado.Perfil.Fecha_Inicio = dto.Perfil.Fecha_Inicio ?? DateTime.Now;
+                    empleado.Perfil.Fecha_Termino = dto.Perfil.Fecha_Termino;
+                    empleado.Perfil.Email = dto.Perfil.Email;
+                    empleado.Perfil.Tel = dto.Perfil.Tel;
+                    empleado.Perfil.NSS = dto.Perfil.NSS;
+                    empleado.Perfil.RFC = dto.Perfil.RFC;
+                    empleado.Perfil.Fotografia = dto.Perfil.Fotografia;
+                    empleado.Perfil.Id_Tipo_Empleado = dto.Perfil.Id_Tipo_Empleado;
+                }
+           }
+
+           await _repository.UpdateAsync(empleado);
+           return NoContent();
         }
 
         [HttpDelete("{id}")]

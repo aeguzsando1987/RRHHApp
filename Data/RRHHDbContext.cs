@@ -66,6 +66,16 @@ namespace RRHH.WebApi.Data {
         public DbSet<Empleado> Empleados { get; set; }
 
         /// <summary>
+        /// Propiedad que permite acceder a la tabla Empleados Perfil
+        /// </summary>
+        public DbSet<Empleado_Perfil> Empleados_Perfil { get; set; }
+
+        /// <summary>
+        /// Propiedad que permite acceder a la tabla Empleados Tipo
+        /// </summary>
+        public DbSet<Empleado_Tipo> Empleados_Tipo { get; set; }
+
+        /// <summary>
         /// Propiedad que permite acceder a la tabla de direcciones de empleados
         /// </summary>
         public DbSet<Empleados_Direccion> Empleados_Direcciones { get; set; }
@@ -232,6 +242,30 @@ namespace RRHH.WebApi.Data {
                 // OnDelete con DeleteBehavior.Cascade indica que si se elimina un Empleado
                 // tambien se eliminaran todos sus direcciones
                 .OnDelete(DeleteBehavior.Cascade);
+
+
+            // Relacion entre Empleado y Perfil: un Empleado tiene un Perfil (1:1)
+            modelBuilder.Entity<Empleado>()
+                .HasOne(e => e.Perfil)
+                .WithOne(p => p.Empleado)
+                .HasForeignKey<Empleado_Perfil>(p => p.Id_Empleado)
+                // Si se elimina un Empleado, se eliminara su Perfil relacionado
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Relacion entre Perfil y Tipo: un Tipo tiene muchos Perfiles (N:1)
+            modelBuilder.Entity<Empleado_Perfil>()
+                .HasOne(ep => ep.Tipo)
+                .WithMany(et => et.Perfiles)
+                .HasForeignKey(ep => ep.Id_Tipo_Empleado)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Empleado_Tipo>().HasData(
+                new Empleado_Tipo { ID = 1, Titulo = "DE CONFIANZA", Descripcion = "COLABORADOR DE CONFIANZA", Prefijo = "CNF" },
+                new Empleado_Tipo { ID = 2, Titulo = "DE PLANTA", Descripcion = "TECNICO OPERATIVO CON HRS. EXTRA", Prefijo = "PLA" },
+                new Empleado_Tipo { ID = 3, Titulo = "EVENTUAL", Descripcion = "EMPLEADO EVENTUAL CON CONTRATO TEMPORAL", Prefijo = "EVT" },
+                new Empleado_Tipo { ID = 4, Titulo = "BECARIO", Descripcion = "BENEFICIARIO DE FORMACION PROFESIONAL", Prefijo = "BEC" }
+            );
+            
         }
     }
 }

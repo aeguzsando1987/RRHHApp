@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RRHH.WebApi.Data;
 
@@ -11,9 +12,11 @@ using RRHH.WebApi.Data;
 namespace RRHH.WebApi.Migrations
 {
     [DbContext(typeof(RRHHDbContext))]
-    partial class RRHHDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250505202027_SplitEmpleadoModel")]
+    partial class SplitEmpleadoModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -207,9 +210,6 @@ namespace RRHH.WebApi.Migrations
                     b.Property<byte[]>("Fotografia")
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<int>("Id_Tipo_Empleado")
-                        .HasColumnType("int");
-
                     b.Property<string>("NSS")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -231,68 +231,12 @@ namespace RRHH.WebApi.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.HasKey("Id_Empleado");
-
-                    b.HasIndex("Id_Tipo_Empleado");
-
-                    b.ToTable("Empleados_Perfil");
-                });
-
-            modelBuilder.Entity("RRHH.WebApi.Models.Empleado_Tipo", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("Tipo_Empleado")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    b.HasKey("Id_Empleado");
 
-                    b.Property<string>("Descripcion")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Prefijo")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("Titulo")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Empleados_Tipo");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = 1,
-                            Descripcion = "COLABORADOR DE CONFIANZA",
-                            Prefijo = "CNF",
-                            Titulo = "DE CONFIANZA"
-                        },
-                        new
-                        {
-                            ID = 2,
-                            Descripcion = "TECNICO OPERATIVO CON HRS. EXTRA",
-                            Prefijo = "PLA",
-                            Titulo = "DE PLANTA"
-                        },
-                        new
-                        {
-                            ID = 3,
-                            Descripcion = "EMPLEADO EVENTUAL CON CONTRATO TEMPORAL",
-                            Prefijo = "EVT",
-                            Titulo = "EVENTUAL"
-                        },
-                        new
-                        {
-                            ID = 4,
-                            Descripcion = "BENEFICIARIO DE FORMACION PROFESIONAL",
-                            Prefijo = "BEC",
-                            Titulo = "BECARIO"
-                        });
+                    b.ToTable("Empleados_Perfil");
                 });
 
             modelBuilder.Entity("RRHH.WebApi.Models.Empleados_Direccion", b =>
@@ -671,6 +615,7 @@ namespace RRHH.WebApi.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<string>("Clave")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -678,6 +623,7 @@ namespace RRHH.WebApi.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Ubicacion_Referencial")
+                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -794,15 +740,7 @@ namespace RRHH.WebApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RRHH.WebApi.Models.Empleado_Tipo", "Tipo")
-                        .WithMany("Perfiles")
-                        .HasForeignKey("Id_Tipo_Empleado")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("Empleado");
-
-                    b.Navigation("Tipo");
                 });
 
             modelBuilder.Entity("RRHH.WebApi.Models.Empleados_Direccion", b =>
@@ -920,11 +858,6 @@ namespace RRHH.WebApi.Migrations
                     b.Navigation("Perfil");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("RRHH.WebApi.Models.Empleado_Tipo", b =>
-                {
-                    b.Navigation("Perfiles");
                 });
 
             modelBuilder.Entity("RRHH.WebApi.Models.Empresa", b =>
