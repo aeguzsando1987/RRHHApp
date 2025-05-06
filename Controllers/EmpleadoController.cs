@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using RRHH.WebApi.Models.Dtos.EmpladoTipo;
 
 
+
 namespace RRHH.WebApi.Controllers
 {
 

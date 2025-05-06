@@ -265,6 +265,21 @@ namespace RRHH.WebApi.Data {
                 new Empleado_Tipo { ID = 3, Titulo = "EVENTUAL", Descripcion = "EMPLEADO EVENTUAL CON CONTRATO TEMPORAL", Prefijo = "EVT" },
                 new Empleado_Tipo { ID = 4, Titulo = "BECARIO", Descripcion = "BENEFICIARIO DE FORMACION PROFESIONAL", Prefijo = "BEC" }
             );
+
+            modelBuilder.Entity<Status>().HasData(
+                new Status {ID = 1, Status_Emp = "ACTIVO", Descripcion_Status = "EMPLEADO ACTIVO"},
+                new Status {ID = 2, Status_Emp = "SUSPENDIDO", Descripcion_Status = "EMPLEADO SUSPENDIDO"},
+                new Status {ID = 3, Status_Emp = "BAJA VOLUNTARIA", Descripcion_Status = "EMPLEADO INACTIVO POR BAJA VOLUNTARIA"},
+                new Status {ID = 4, Status_Emp = "BAJA INVOLUNTARIA", Descripcion_Status = "EMPLEADO INACTIVO POR BAJA INVOLUNTARIA"}
+            );
+
+            modelBuilder.Entity<Organizacion>().HasData(
+                new Organizacion {Id = 1, Clave = "ORG1", Nombre = "CONGLOMERADO", Fecha_Creacion = DateTime.Parse("2000-01-01")}
+            );
+
+            modelBuilder.Entity<Empresa>().HasData(
+                new Empresa {ID = 1, Id_Org = 1, Clave = "EMP1", Razon_Social = "EMPRESA PRUEBA", Fecha_Creacion = DateTime.Parse("2000-01-01")}
+            );
             
         }
     }
