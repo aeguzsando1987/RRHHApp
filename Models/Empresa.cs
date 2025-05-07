@@ -27,6 +27,7 @@ namespace RRHH.WebApi.Models {
         public  Organizacion? Organizacion { get; set; }
         public ICollection<Area>? Areas {get; set;} = new List<Area>(); 
         public ICollection<Ubicacion>? Ubicaciones {get; set;} = new List<Ubicacion>(); 
+        public ICollection<ContactosEmpresa>? Contactos {get; set;} = new List<ContactosEmpresa>(); 
         public ICollection<Empresas_Direccion>? Empresas_Direcciones {get; set;} = new List<Empresas_Direccion>(); 
 
     }

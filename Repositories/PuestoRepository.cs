@@ -73,5 +73,4 @@ namespace RRHH.WebApi.Repositories
             }
         }
     }
-
 }

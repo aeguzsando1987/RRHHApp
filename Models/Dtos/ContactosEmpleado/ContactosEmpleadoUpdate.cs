@@ -1,22 +1,21 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace RRHH.WebApi.Models 
+namespace RRHH.WebApi.Models.Dtos.ContactosEmpleado
 {
-    public class ContactosEmpleado
+    public class ContactosEmpleadoUpdateDto
     {
-        [Key]
-        public int ID { get; set; }
+        [Required]
+        public int Id_Empleado { get; set; }
 
-        [ForeignKey(nameof(Empleado))]
-        public required int Id_Empleado { get; set; }
-
+        [Required]
         [StringLength(50)]
         public string Nombre_Contacto { get; set; } = string.Empty;
 
+        [Required]
         [StringLength(50)]
         public string Domicilio { get; set; } = string.Empty;
 
+        [Required]
         [StringLength(50)]
         public string Telefono { get; set; } = string.Empty;
 
@@ -25,7 +24,5 @@ namespace RRHH.WebApi.Models
 
         [StringLength(20)]
         public string? Relacion { get; set; }
-
-        public Empleado Empleado { get; set; } = null!;
     }
 }

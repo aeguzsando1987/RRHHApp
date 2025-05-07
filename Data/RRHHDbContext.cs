@@ -31,6 +31,11 @@ namespace RRHH.WebApi.Data {
         public DbSet<Empresas_Direccion> Empresas_Direcciones { get; set; }
 
         /// <summary>
+        /// Propiedad que permite acceder a la tabla Contactos de empresas
+        /// </summary>
+        public DbSet<ContactosEmpresa> ContactosEmpresas { get; set; }
+
+        /// <summary>
         /// Propiedad que permite acceder a la tabla Areas
         /// </summary>
         public DbSet<Area> Areas { get; set; }
@@ -115,10 +120,19 @@ namespace RRHH.WebApi.Data {
                 // Si se elimina una Organizacion, se eliminaran todas las Empresas relacionadas
                 .OnDelete(DeleteBehavior.Cascade);
 
+            // Relacion entre Empresa y Empresas_Direccion: una Empresa puede tener varias direcciones (1:N)
             modelBuilder.Entity<Empresas_Direccion>()
                 .HasOne(ed => ed.Empresa)
                 .WithMany(e => e.Empresas_Direcciones)
                 .HasForeignKey(ed => ed.Id_Empresa)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+            // Relacion entre Empresa y ContactosEmpresa: una Empresa puede tener varios Contactos (1:N)
+            modelBuilder.Entity<ContactosEmpresa>()
+                .HasOne(c => c.Empresa)
+                .WithMany(e => e.Contactos)
+                .HasForeignKey(c => c.Id_Empresa)
                 .OnDelete(DeleteBehavior.Cascade);
 
             // Relacion entre Empresa y Area: una Empresa puede tener varias Areas (1:N)
@@ -270,7 +284,8 @@ namespace RRHH.WebApi.Data {
                 new Status {ID = 1, Status_Emp = "ACTIVO", Descripcion_Status = "EMPLEADO ACTIVO"},
                 new Status {ID = 2, Status_Emp = "SUSPENDIDO", Descripcion_Status = "EMPLEADO SUSPENDIDO"},
                 new Status {ID = 3, Status_Emp = "BAJA VOLUNTARIA", Descripcion_Status = "EMPLEADO INACTIVO POR BAJA VOLUNTARIA"},
-                new Status {ID = 4, Status_Emp = "BAJA INVOLUNTARIA", Descripcion_Status = "EMPLEADO INACTIVO POR BAJA INVOLUNTARIA"}
+                new Status {ID = 4, Status_Emp = "BAJA INVOLUNTARIA", Descripcion_Status = "EMPLEADO INACTIVO POR BAJA INVOLUNTARIA"},
+                new Status {ID = 5, Status_Emp = "INCAPACIDAD", Descripcion_Status = "EMPLEADO INACTIVO POR INCAPACIDAD MEDICA"}
             );
 
             modelBuilder.Entity<Organizacion>().HasData(
@@ -281,6 +296,13 @@ namespace RRHH.WebApi.Data {
                 new Empresa {ID = 1, Id_Org = 1, Clave = "EMP1", Razon_Social = "EMPRESA PRUEBA", Fecha_Creacion = DateTime.Parse("2000-01-01")}
             );
             
+            modelBuilder.Entity<Area>().HasData(
+                new Area {ID = 1, Id_Empresa = 1, Clave = "AR1", Nombre = "AREA PRUEBA", Descripcion = "AREA PRUEBA"}
+            );
+
+            modelBuilder.Entity<Departamento>().HasData(
+                new Departamento {ID = 1, Id_Area = 1, Clave = "DEP1", Nombre = "DEPARTAMENTO PRUEBA", Descripcion = "DEPARTAMENTO PRUEBA"}
+            );
         }
     }
 }

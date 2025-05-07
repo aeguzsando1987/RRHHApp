@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RRHH.WebApi.Data;
 
@@ -11,9 +12,11 @@ using RRHH.WebApi.Data;
 namespace RRHH.WebApi.Migrations
 {
     [DbContext(typeof(RRHHDbContext))]
-    partial class RRHHDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250507153604_AddEmpresasContactoModel")]
+    partial class AddEmpresasContactoModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,6 +82,7 @@ namespace RRHH.WebApi.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -91,6 +95,7 @@ namespace RRHH.WebApi.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Relacion")
+                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
@@ -120,6 +125,7 @@ namespace RRHH.WebApi.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -132,8 +138,9 @@ namespace RRHH.WebApi.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Puesto_Ref")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Telefono")
                         .IsRequired()
@@ -178,16 +185,6 @@ namespace RRHH.WebApi.Migrations
                     b.HasIndex("Id_Area");
 
                     b.ToTable("Departamentos");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = 1,
-                            Clave = "DEP1",
-                            Descripcion = "DEPARTAMENTO PRUEBA",
-                            Id_Area = 1,
-                            Nombre = "DEPARTAMENTO PRUEBA"
-                        });
                 });
 
             modelBuilder.Entity("RRHH.WebApi.Models.Empleado", b =>

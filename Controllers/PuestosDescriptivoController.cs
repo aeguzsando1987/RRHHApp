@@ -145,8 +145,5 @@ namespace RRHH.WebApi.Controllers
            await _repository.DeleteAsync(id);
            return NoContent();
         }
-
-
     }
-
 }

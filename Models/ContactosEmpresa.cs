@@ -3,29 +3,29 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RRHH.WebApi.Models 
 {
-    public class ContactosEmpleado
+    public class ContactosEmpresa
     {
         [Key]
         public int ID { get; set; }
 
-        [ForeignKey(nameof(Empleado))]
-        public required int Id_Empleado { get; set; }
-
+        [ForeignKey(nameof(Empresa))]
+        public required int Id_Empresa { get; set; }
+        [Required]
         [StringLength(50)]
-        public string Nombre_Contacto { get; set; } = string.Empty;
-
+        public string Nombre_Alias { get; set; } = string.Empty;
+        [Required]
         [StringLength(50)]
         public string Domicilio { get; set; } = string.Empty;
-
+        [Required]
         [StringLength(50)]
         public string Telefono { get; set; } = string.Empty;
 
         [StringLength(50)]
         public string? Email { get; set; }
 
-        [StringLength(20)]
-        public string? Relacion { get; set; }
+        [StringLength(50)]
+        public string? Puesto_Ref { get; set; }
 
-        public Empleado Empleado { get; set; } = null!;
+        public Empresa? Empresa { get; set; }
     }
 }
