@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.RenderTree;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RRHH.WebApi.Models;
+using RRHH.WebApi.Models.Interfaces;
 
 namespace RRHH.WebApi.Data {
 
@@ -10,6 +11,7 @@ namespace RRHH.WebApi.Data {
     /// Clase que hereda de DbContext y que sera usada para interactuar con la base de datos
     /// </summary>
     public class RRHHDbContext : DbContext {
+        
         /// <summary>
         /// Constructor que recibe las opciones de configuracion para la base de datos
         /// </summary>
@@ -105,6 +107,45 @@ namespace RRHH.WebApi.Data {
         /// Propiedad que permite acceder a la tabla Contactos
         /// </summary>
         public DbSet<ContactosEmpleado> ContactosEmpleados { get; set; }
+
+        /// <summary>
+        /// Saves all changes made in this context to the underlying database.
+        /// </summary>
+        /// <returns>The number of state entries written to the underlying database.
+        /// This can include state entries for entities and/or relationships.
+        /// Relationships are included in the count.
+        /// </returns>
+        public override int SaveChanges()
+        {
+            UpdateAuditableEntities();
+            return base.SaveChanges();
+        }
+
+        /// <summary>
+        /// Asynchronously saves all changes made in this context to the underlying database.
+        /// </summary>
+        /// <param name="cancellationToken">A token to observe while waiting for the task to complete.</param>
+        /// <returns>A task that represents the asynchronous save operation. The task result contains the number of state entries written to the database.</returns>
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            UpdateAuditableEntities();
+            return base.SaveChangesAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// Actualiza las propiedades de Fecha_Modificacion de las entidades que implementan IAuditable
+        /// </summary>
+        private void UpdateAuditableEntities()
+        {
+            var entries = ChangeTracker.Entries()
+                .Where(e => e.Entity is IAuditable &&
+                    (e.State == EntityState.Added || e.State == EntityState.Modified));
+
+            foreach (var entityEntry in entries)
+            {
+                ((IAuditable)entityEntry.Entity).Fecha_Modificacion = DateTime.Now;
+            }
+        }
 
         /// <summary>
         /// Metodo que se llama al crear la base de datos y que permite definir las relaciones y claves entre las tablas
