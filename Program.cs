@@ -33,7 +33,9 @@ builder.Services.AddScoped<EmpleadoRepository>();
 builder.Services.AddScoped<EmpleadoTipoRepository>();
 builder.Services.AddScoped<UbicacionRepository>();
 builder.Services.AddScoped<ContactosEmpresaRepository>();
-
+builder.Services.AddScoped<Empleados_DireccionRepository>();
+builder.Services.AddScoped<Empresas_DireccionRepository>();
+builder.Services.AddScoped<UserRepository>();
 
 // Agregar los controladores
 builder.Services.AddControllers()

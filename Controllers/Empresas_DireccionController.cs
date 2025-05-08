@@ -7,6 +7,8 @@ using RRHH.WebApi.Models.Dtos.Empleados_Direccion;
 
 namespace RRHH.WebApi.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class Empresas_DireccionController : ControllerBase
     {
         private readonly Empresas_DireccionRepository _repository;

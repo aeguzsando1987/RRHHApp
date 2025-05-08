@@ -6,6 +6,8 @@ using RRHH.WebApi.Repositories;
 
 namespace RRHH.WebApi.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class Empleados_DireccionController : ControllerBase
     {
         private readonly Empleados_DireccionRepository _repository;

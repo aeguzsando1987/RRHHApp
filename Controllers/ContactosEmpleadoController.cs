@@ -16,6 +16,8 @@ namespace RRHH.WebApi.Controllers
     /// </remarks>
     // La ruta base de este controlador es "api/ContactosEmpleado".
     // Todas las rutas definidas en este controlador seran "api/ContactosEmpleado/<ruta-definida>".
+    [ApiController]
+    [Route("api/[controller]")]
     public class ContactosEmpleadoController : ControllerBase
     {
         private readonly ContactosEmpleadoRepository _repository;

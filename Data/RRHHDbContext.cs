@@ -344,6 +344,15 @@ namespace RRHH.WebApi.Data {
             modelBuilder.Entity<Departamento>().HasData(
                 new Departamento {ID = 1, Id_Area = 1, Clave = "DEP1", Nombre = "DEPARTAMENTO PRUEBA", Descripcion = "DEPARTAMENTO PRUEBA"}
             );
+
+            modelBuilder.Entity<Jerarquia>().HasData(
+                new Jerarquia {ID = 1, Clave = "DIR", Titulo = "DIRECCION GENERAL", Descripcion = "DIRECCION GENERAL", Nivel = 0},
+                new Jerarquia {ID = 2, Clave = "DAR", Titulo = "DIRECCION", Descripcion = "DIRECCION DE AREA O UNIDAD", Nivel = 1},
+                new Jerarquia {ID = 3, Clave = "GER", Titulo = "GERENCIA", Descripcion = "GERENCIA DE AREA O DEPARTAMENTO", Nivel = 2},
+                new Jerarquia {ID = 4, Clave = "CRD", Titulo = "COORDINACION", Descripcion = "COORDINACION/JEFATURA DE DEPTO. U OFICINA", Nivel = 3},
+                new Jerarquia {ID = 6, Clave = "SUP", Titulo = "SUPERVISION", Descripcion = "SUPERVISION DE DEPTO. U OFICINA", Nivel = 5},
+                new Jerarquia {ID = 7, Clave = "AUX", Titulo = "AUXILIAR", Descripcion = "COLABORACION AUX. ADMVA. U OPERATIVA", Nivel = 6}
+            );
         }
     }
 }
