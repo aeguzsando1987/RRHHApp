@@ -1,16 +1,17 @@
 
-using Microsoft.AspNetCore.Components.RenderTree;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RRHH.WebApi.Models;
 using RRHH.WebApi.Models.Interfaces;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace RRHH.WebApi.Data {
 
     /// <summary>
     /// Clase que hereda de DbContext y que sera usada para interactuar con la base de datos
     /// </summary>
-    public class RRHHDbContext : DbContext {
+    public class RRHHDbContext : IdentityDbContext<User, IdentityRole<int>, int>
+    {
         
         /// <summary>
         /// Constructor que recibe las opciones de configuracion para la base de datos
@@ -101,7 +102,7 @@ namespace RRHH.WebApi.Data {
         /// <summary>
         /// Propiedad que permite acceder a la tabla Users
         /// </summary>
-        public DbSet<User> Users { get; set; }
+        // public DbSet<User> Users { get; set; }
 
         /// <summary>
         /// Propiedad que permite acceder a la tabla Contactos
@@ -151,7 +152,9 @@ namespace RRHH.WebApi.Data {
         /// Metodo que se llama al crear la base de datos y que permite definir las relaciones y claves entre las tablas
         /// </summary>
         /// <param name="modelBuilder">Modelo que representa la base de datos</param>
-        protected override void OnModelCreating(ModelBuilder modelBuilder) {
+        protected override void OnModelCreating(ModelBuilder modelBuilder) 
+        {
+            base.OnModelCreating(modelBuilder);
     
             // Relacion entre Organizacion y Empresa: una Organizacion puede tener varias Empresas (1:N)
             modelBuilder.Entity<Empresa>()

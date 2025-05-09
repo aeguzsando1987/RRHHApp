@@ -26,7 +26,7 @@ namespace RRHH.WebApi.Repositories
         {
             return await _context.Users
                 .Include(u => u.Empleado)
-                .FirstOrDefaultAsync(u => u.ID == id);
+                .FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public async Task<User> AddAsync(User user)
@@ -42,14 +42,20 @@ namespace RRHH.WebApi.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<User> ValidateCredentialsAsync(string username, string passwords)
+        /*
+        // TODO: This method needs to be re-implemented using UserManager and SignInManager for secure password validation.
+        // For now, it's commented out to allow the build to proceed with Identity changes.
+        public async Task<User> ValidateCredentialsAsync(string username, string password) 
         {
+            // Direct password comparison is insecure and not possible with Identity's hashed passwords.
+            // This logic will be handled by SignInManager.CheckPasswordSignInAsync() or UserManager.CheckPasswordAsync() in an AuthController.
             return await _context.Users
                 .Include(u => u.Empleado)
-                .FirstOrDefaultAsync(u => u.Username == username && 
-                                          u.Password == passwords && 
+                .FirstOrDefaultAsync(u => u.UserName == username && 
+                                          // u.Password == password && // REMOVE: Direct password check is no longer valid
                                           u.Active);
         }
+        */
 
         public async Task DeleteAsync(int id)
         {
@@ -60,7 +66,5 @@ namespace RRHH.WebApi.Repositories
                 await _context.SaveChangesAsync();
             }
         }
-
-
     }
 }

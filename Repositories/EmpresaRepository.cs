@@ -54,7 +54,7 @@ namespace RRHH.WebApi.Repositories
         /// Agrega una nueva empresa a la base de datos
         /// </summary>
         /// <param name="empresa">La empresa a agregar</param>
-        public async Task AddSync(Empresa empresa)
+        public async Task AddAsync(Empresa empresa)
         {
             _context.Empresas.Add(empresa);
             await _context.SaveChangesAsync();

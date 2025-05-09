@@ -88,7 +88,7 @@ namespace RRHH.WebApi.Controllers
             // Agrega la empresa a la base de datos.
             // Se agrega la empresa recien creada a la base de datos
             // para que pueda ser utilizada en el futuro.
-            await _repository.AddSync(empresa);
+            await _repository.AddAsync(empresa);
 
             // Mapea la empresa a DTO para enviar al cliente.
             // Se crea un objeto Dto con los datos de la empresa para

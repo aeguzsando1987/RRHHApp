@@ -4,7 +4,8 @@ using RRHH.WebApi.Repositories;
 // Directiva using para el espacio de nombres de Microsoft.EntityFrameworkCore
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
+using Microsoft.AspNetCore.Identity; 
+using RRHH.WebApi.Models; 
 
 // Crear un nuevo constructor de aplicaciones web
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +19,17 @@ builder.Services.AddDbContext<RRHHDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+// Configure ASP.NET Core Identity
+builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
+{
+    // You can configure Identity options here, for example:
+    // options.Password.RequireDigit = true;
+    // options.Password.RequiredLength = 8;
+    // options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+    // options.User.RequireUniqueEmail = true;
+})
+.AddEntityFrameworkStores<RRHHDbContext>()
+.AddDefaultTokenProviders();
 
 // Agregar los repositorios
 builder.Services.AddScoped<OrganizacionRepository>();
@@ -44,8 +56,7 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 
         options.JsonSerializerOptions.MaxDepth = 32;
-    })
-    .AddNewtonsoftJson();
+    });
 
 // Agregar los generadores de Swagger
 builder.Services.AddEndpointsApiExplorer();
@@ -65,6 +76,9 @@ if (app.Environment.IsDevelopment())
 
 // Enrutamiento
 app.UseRouting();
+
+// Usar autenticación
+app.UseAuthentication();
 
 // Usar autorización
 app.UseAuthorization();

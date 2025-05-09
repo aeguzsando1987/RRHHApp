@@ -23,10 +23,9 @@ namespace RRHH.WebApi.Controllers
         {
             var users = await _repository.GetAllAsync();
             var dtos = users.Select(a => new UserReadDto {
-                ID = a.ID,
+                ID = a.Id,
                 Id_Empleado = a.Id_Empleado,
-                Username = a.Username,
-                Password = a.Password,
+                Username = a.UserName,
                 Active = a.Active
             });
             return Ok(dtos);
@@ -41,10 +40,9 @@ namespace RRHH.WebApi.Controllers
                 return NotFound();
             }
             var dto = new UserReadDto {
-                ID = user.ID,
+                ID = user.Id,
                 Id_Empleado = user.Id_Empleado,
-                Username = user.Username,
-                Password = user.Password,
+                Username = user.UserName,
                 Active = user.Active
             };
             return Ok(dto);
@@ -56,13 +54,12 @@ namespace RRHH.WebApi.Controllers
             var user = new User
             {
                 Id_Empleado = dto.Id_Empleado,
-                Username = dto.Username,
-                Password = dto.Password,
+                UserName = dto.Username,
                 Active = dto.Active
             };
-            await _repository.AddAsync(user);
-            return CreatedAtAction(nameof(GetById), new { id = user.ID },
-            new {user.ID, user.Username, user.Id_Empleado});
+            await _repository.AddAsync(user); 
+            return CreatedAtAction(nameof(GetById), new { id = user.Id },
+            new {ID = user.Id, Username = user.UserName, user.Id_Empleado});
         }
 
         [HttpPut("{id}")]
@@ -71,8 +68,7 @@ namespace RRHH.WebApi.Controllers
             var user = await _repository.GetByIdAsync(id);
             if (user == null) return NotFound();
 
-            user.Username = dto.Username;
-            user.Password = dto.Password;
+            user.UserName = dto.Username;
             user.Active = dto.Active;
 
             await _repository.UpdateAsync(user);
@@ -89,16 +85,14 @@ namespace RRHH.WebApi.Controllers
 
             var dto = new UserUpdateDto
             {
-                Username = user.Username,
-                Password = user.Password,
+                Username = user.UserName,
                 Active = user.Active
             };
 
             patchDoc.ApplyTo(dto, ModelState);
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            user.Username = dto.Username;
-            user.Password = dto.Password;
+            user.UserName = dto.Username;
             user.Active = dto.Active;
 
             await _repository.UpdateAsync(user);
@@ -111,7 +105,5 @@ namespace RRHH.WebApi.Controllers
             await _repository.DeleteAsync(id);
             return NoContent();
         }
-
-
     }
 }
