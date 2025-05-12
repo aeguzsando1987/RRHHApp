@@ -1,11 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using RRHH.WebApi.Data;
 using RRHH.WebApi.Models;
+using RRHH.WebApi.Repositories.Interfaces;
 
 namespace RRHH.WebApi.Repositories
 {
 
-    public class JerarquiaRepository
+    public class JerarquiaRepository : IJerarquiaRepository
     {
         private readonly RRHHDbContext _context;
 

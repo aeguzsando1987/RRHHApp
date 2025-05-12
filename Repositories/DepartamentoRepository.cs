@@ -1,11 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using RRHH.WebApi.Data;
 using RRHH.WebApi.Models;
+using RRHH.WebApi.Repositories.Interfaces;
 
 namespace RRHH.WebApi.Repositories
 {
 
-    public class DepartamentoRepository
+    public class DepartamentoRepository : IDepartamentoRepository
     {
         private readonly RRHHDbContext _context;
 
@@ -43,7 +44,7 @@ namespace RRHH.WebApi.Repositories
         /// Agrega un nuevo departamento a la base de datos
         /// </summary>
         /// <param name="departamento">El departamento a agregar</param>
-        public async Task AddSync(Departamento departamento)
+        public async Task AddAsync(Departamento departamento)
         {
             _context.Departamentos.Add(departamento);
             await _context.SaveChangesAsync();

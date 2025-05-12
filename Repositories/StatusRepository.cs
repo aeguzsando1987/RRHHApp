@@ -1,10 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using RRHH.WebApi.Models;
 using RRHH.WebApi.Data;
+using RRHH.WebApi.Repositories.Interfaces;
 
 namespace RRHH.WebApi.Repositories
 {
-    public class StatusRepository
+    public class StatusRepository : IStatusRepository
     {
         private readonly RRHHDbContext _context;
 

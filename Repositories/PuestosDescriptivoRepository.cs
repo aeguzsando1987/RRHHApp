@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using RRHH.WebApi.Data;
 using RRHH.WebApi.Models;
+using RRHH.WebApi.Repositories.Interfaces;
 
 namespace RRHH.WebApi.Repositories
 {
@@ -10,7 +11,7 @@ namespace RRHH.WebApi.Repositories
     /// Esta clase se encarga de interactuar con la base de datos para obtener, agregar, actualizar y eliminar
     /// puestos descriptivos.
     /// </summary>
-    public class PuestosDescriptivoRepository
+    public class PuestosDescriptivoRepository : IPuestosDescriptivoRepository
     {
         private readonly RRHHDbContext _context;
 

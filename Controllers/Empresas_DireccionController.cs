@@ -4,6 +4,7 @@ using RRHH.WebApi.Models;
 using RRHH.WebApi.Models.Dtos.Empresas_Direccion;
 using RRHH.WebApi.Repositories;
 using RRHH.WebApi.Models.Dtos.Empleados_Direccion;
+using RRHH.WebApi.Repositories.Interfaces;
 
 namespace RRHH.WebApi.Controllers
 {
@@ -11,9 +12,9 @@ namespace RRHH.WebApi.Controllers
     [Route("api/[controller]")]
     public class Empresas_DireccionController : ControllerBase
     {
-        private readonly Empresas_DireccionRepository _repository;
+        private readonly IEmpresas_DireccionRepository _repository;
 
-        public Empresas_DireccionController(Empresas_DireccionRepository repository)
+        public Empresas_DireccionController(IEmpresas_DireccionRepository repository)
         {
             _repository = repository;
         }

@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.AspNetCore.JsonPatch;
-
+using RRHH.WebApi.Repositories.Interfaces;
 
 namespace RRHH.WebApi.Controllers
 {
@@ -16,9 +16,9 @@ namespace RRHH.WebApi.Controllers
     [ApiController]
     public class EmpleadoTipoController : ControllerBase
     {
-        private readonly EmpleadoTipoRepository _repository;
+        private readonly IEmpleadoTipoRepository _repository;
 
-        public EmpleadoTipoController(EmpleadoTipoRepository repository)
+        public EmpleadoTipoController(IEmpleadoTipoRepository repository)
         {
             _repository = repository;
         }

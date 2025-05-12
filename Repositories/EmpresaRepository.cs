@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using RRHH.WebApi.Data;
 using RRHH.WebApi.Models;
+using RRHH.WebApi.Repositories.Interfaces;
 
 
 namespace RRHH.WebApi.Repositories
@@ -8,7 +9,7 @@ namespace RRHH.WebApi.Repositories
     /// <summary>
     /// Interfaz para interactuar con la tabla Empresas en la base de datos
     /// </summary>
-    public class EmpresasRepository
+    public class EmpresasRepository : IEmpresaRepository
     {
 
         private readonly RRHHDbContext _context;

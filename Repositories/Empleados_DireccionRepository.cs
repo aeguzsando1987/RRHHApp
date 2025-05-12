@@ -1,10 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using RRHH.WebApi.Data;
 using RRHH.WebApi.Models;
+using RRHH.WebApi.Repositories.Interfaces;
 
 namespace RRHH.WebApi.Repositories
 {
-    public class Empleados_DireccionRepository
+    public class Empleados_DireccionRepository : IEmpleados_DireccionRepository
     {
         private readonly RRHHDbContext _context;
 

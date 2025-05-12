@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Azure;
 using Microsoft.AspNetCore.JsonPatch;
 using RRHH.WebApi.Models.Dtos.Empresa;
+using RRHH.WebApi.Repositories.Interfaces;
 
 namespace RRHH.WebApi.Controllers
 {
@@ -18,13 +19,13 @@ namespace RRHH.WebApi.Controllers
     public class AreaController : ControllerBase
     {
        
-       private readonly AreaRepository _repository;
+       private readonly IAreaRepository _repository;
 
        /// <summary>
        /// Constructor del controlador, que recibe una instancia de 
        /// la interfaz de la base de datos de Areas.
        /// </summary>
-       public AreaController(AreaRepository repository)
+       public AreaController(IAreaRepository repository)
        {
             _repository = repository;
        }
@@ -94,7 +95,7 @@ namespace RRHH.WebApi.Controllers
                 Descripcion = dto.Descripcion
             };
             // Agregar la area a la base de datos.
-            await _repository.AddSync(area);
+            await _repository.AddAsync(area);
 
             // Mapear la area a DTO para enviar al cliente.
             var readDto = new AreaReadDto

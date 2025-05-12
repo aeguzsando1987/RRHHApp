@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.JsonPatch;
 using RRHH.WebApi.Models;
 using RRHH.WebApi.Models.Dtos.Empleados_Direccion;
-using RRHH.WebApi.Repositories;
+using RRHH.WebApi.Repositories.Interfaces;
 
 namespace RRHH.WebApi.Controllers
 {
@@ -10,9 +10,9 @@ namespace RRHH.WebApi.Controllers
     [Route("api/[controller]")]
     public class Empleados_DireccionController : ControllerBase
     {
-        private readonly Empleados_DireccionRepository _repository;
+        private readonly IEmpleados_DireccionRepository _repository;
 
-        public Empleados_DireccionController(Empleados_DireccionRepository repository)
+        public Empleados_DireccionController(IEmpleados_DireccionRepository repository)
         {
             _repository = repository;
         }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using RRHH.WebApi.Models;
 using RRHH.WebApi.Models.Dtos.PuestosActividad;
 using RRHH.WebApi.Repositories;
+using RRHH.WebApi.Repositories.Interfaces;
 namespace RRHH.WebApi.Controllers
 {
 
@@ -19,9 +20,9 @@ namespace RRHH.WebApi.Controllers
     public class PuestosActividadController : ControllerBase
     {
 
-        private readonly PuestosActividadRepository _repository;
+        private readonly IPuestosActividadRepository _repository;
 
-        public PuestosActividadController(PuestosActividadRepository repository)
+        public PuestosActividadController(IPuestosActividadRepository repository)
         {
             _repository = repository;
         }
@@ -46,7 +47,7 @@ namespace RRHH.WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<PuestosActividadReadDto>> GetById(int id)
         {
-            var psa = await _repository.GetByIDAsync(id);
+            var psa = await _repository.GetByIdAsync(id);
             if(psa == null)
             {
                 return NotFound();
@@ -90,7 +91,7 @@ namespace RRHH.WebApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, PuestosActividadUpdateDto dto)
         {
-            var psa = await _repository.GetByIDAsync(id);
+            var psa = await _repository.GetByIdAsync(id);
             if(psa == null)
             {
                 return NotFound();
@@ -110,7 +111,7 @@ namespace RRHH.WebApi.Controllers
         {
             if (patchDoc == null) return BadRequest();
 
-            var psa = await _repository.GetByIDAsync(id);
+            var psa = await _repository.GetByIdAsync(id);
             if (psa == null) return NotFound();
 
             var dto = new PuestosActividadUpdateDto

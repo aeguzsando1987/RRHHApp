@@ -2,10 +2,11 @@ using Microsoft.EntityFrameworkCore;
 using RRHH.WebApi.Data;
 using RRHH.WebApi.Models;
 using RRHH.WebApi.Models.Interfaces;
-
+using RRHH.WebApi.Repositories.Interfaces;
+    
 namespace RRHH.WebApi.Repositories
 {
-    public class UserRepository
+    public class UserRepository : IUserRepository
     {
         private readonly RRHHDbContext _context;
 

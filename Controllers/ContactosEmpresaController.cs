@@ -4,6 +4,7 @@ using RRHH.WebApi.Models;
 using RRHH.WebApi.Models.Dtos.ContactosEmpresa;
 using RRHH.WebApi.Repositories;
 using Microsoft.JSInterop.Infrastructure;
+using RRHH.WebApi.Repositories.Interfaces;
 
 namespace RRHH.WebApi.Controllers
 {
@@ -11,9 +12,9 @@ namespace RRHH.WebApi.Controllers
     [ApiController]
     public class ContactosEmpresaController : ControllerBase
     {
-        private readonly ContactosEmpresaRepository _repository;
+        private readonly IContactosEmpresaRepository _repository;
 
-        public ContactosEmpresaController(ContactosEmpresaRepository repository)
+        public ContactosEmpresaController(IContactosEmpresaRepository repository)
         {
             _repository = repository;
         }

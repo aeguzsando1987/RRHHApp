@@ -4,6 +4,7 @@ using RRHH.WebApi.Models.Dtos;
 using RRHH.WebApi.Models.Dtos.Users;
 using RRHH.WebApi.Repositories;
 using Microsoft.AspNetCore.JsonPatch;   
+using Microsoft.AspNetCore.Http;
 
 namespace RRHH.WebApi.Controllers
 {
@@ -21,14 +22,15 @@ namespace RRHH.WebApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetAll()
         {
-            var users = await _repository.GetAllAsync();
-            var dtos = users.Select(a => new UserReadDto {
-                ID = a.Id,
-                Id_Empleado = a.Id_Empleado,
-                Username = a.UserName,
-                Active = a.Active
-            });
-            return Ok(dtos);
+            // var users = await _repository.GetAllAsync();
+            // var dtos = users.Select(a => new UserReadDto {
+            //     ID = a.Id,
+            //     Id_Empleado = a.Id_Empleado,
+            //     Username = a.UserName,
+            //     Active = a.Active
+            // });
+            // return Ok(dtos);
+            return StatusCode(StatusCodes.Status501NotImplemented, new { Message = "This endpoint is deprecated or currently not available." });
         }
 
         [HttpGet("{id:int}")]
@@ -51,15 +53,20 @@ namespace RRHH.WebApi.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> Create(UserCreateDto dto)
         {
-            var user = new User
-            {
-                Id_Empleado = dto.Id_Empleado,
-                UserName = dto.Username,
-                Active = dto.Active
-            };
-            await _repository.AddAsync(user); 
-            return CreatedAtAction(nameof(GetById), new { id = user.Id },
-            new {ID = user.Id, Username = user.UserName, user.Id_Empleado});
+            // var user = new User
+            // {
+            //     Id_Empleado = dto.Id_Empleado,
+            //     UserName = dto.Username,
+            //     Active = dto.Active
+            // };
+            // await _repository.AddAsync(user); 
+            // return CreatedAtAction(nameof(GetById), new { id = user.Id },
+            // new {ID = user.Id, Username = user.UserName, user.Id_Empleado});
+            
+            // Deprecate this endpoint. User creation should go through AuthController.
+            // Consider logging this attempt if monitoring is important.
+            // _logger.LogWarning("Attempt to use deprecated UserController.Create endpoint for Username: {Username}", dto.Username);
+            return StatusCode(StatusCodes.Status501NotImplemented, new { Message = "This endpoint is deprecated for user creation. Please use /api/auth/register." });
         }
 
         [HttpPut("{id}")]

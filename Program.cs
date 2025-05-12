@@ -80,21 +80,22 @@ builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
 .AddDefaultTokenProviders();
 
 // Agregar los repositorios y servicios
-builder.Services.AddScoped<OrganizacionRepository>();
-builder.Services.AddScoped<EmpresasRepository>();
-builder.Services.AddScoped<AreaRepository>();
-builder.Services.AddScoped<DepartamentoRepository>();
-builder.Services.AddScoped<JerarquiaRepository>();
-builder.Services.AddScoped<PuestoRepository>();
-builder.Services.AddScoped<PuestosDescriptivoRepository>();
-builder.Services.AddScoped<PuestosActividadRepository>();
-builder.Services.AddScoped<StatusRepository>();
+builder.Services.AddScoped<IOrganizacionRepository, OrganizacionRepository>();
+builder.Services.AddScoped<IEmpresaRepository, EmpresasRepository>();
+builder.Services.AddScoped<IAreaRepository, AreaRepository>();
+builder.Services.AddScoped<IDepartamentoRepository, DepartamentoRepository>();
+builder.Services.AddScoped<IJerarquiaRepository, JerarquiaRepository>();
+builder.Services.AddScoped<IPuestoRepository, PuestoRepository>();
+builder.Services.AddScoped<IPuestosDescriptivoRepository, PuestosDescriptivoRepository>();
+builder.Services.AddScoped<IPuestosActividadRepository, PuestosActividadRepository>();
+builder.Services.AddScoped<IStatusRepository, StatusRepository>();
 builder.Services.AddScoped<IEmpleadoRepository, EmpleadoRepository>();
-builder.Services.AddScoped<EmpleadoTipoRepository>();
-builder.Services.AddScoped<UbicacionRepository>();
-builder.Services.AddScoped<ContactosEmpresaRepository>();
-builder.Services.AddScoped<Empleados_DireccionRepository>();
-builder.Services.AddScoped<Empresas_DireccionRepository>();
+builder.Services.AddScoped<IEmpleadoTipoRepository, EmpleadoTipoRepository>();
+builder.Services.AddScoped<IUbicacionRepository, UbicacionRepository>();
+builder.Services.AddScoped<IContactosEmpresaRepository, ContactosEmpresaRepository>();
+builder.Services.AddScoped<IContactosEmpleadoRepository, ContactosEmpleadoRepository>();
+builder.Services.AddScoped<IEmpleados_DireccionRepository, Empleados_DireccionRepository>();
+builder.Services.AddScoped<IEmpresas_DireccionRepository, Empresas_DireccionRepository>();
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IEmpleadoService, EmpleadoService>();

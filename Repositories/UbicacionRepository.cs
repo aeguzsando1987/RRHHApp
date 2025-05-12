@@ -3,11 +3,11 @@ using RRHH.WebApi.Data;
 using RRHH.WebApi.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using RRHH.WebApi.Repositories;
+using RRHH.WebApi.Repositories.Interfaces;
 
 namespace RRHH.WebApi.Repositories
 {
-    public class UbicacionRepository
+    public class UbicacionRepository : IUbicacionRepository
     {
         private readonly RRHHDbContext _context;
 

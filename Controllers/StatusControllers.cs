@@ -4,6 +4,7 @@ using RRHH.WebApi.Models.Dtos.Status;
 using RRHH.WebApi.Repositories;
 using Microsoft.AspNetCore.JsonPatch;
 using System.Runtime.CompilerServices;
+using RRHH.WebApi.Repositories.Interfaces;
 
 namespace RRHH.WebApi.Controllers
 {
@@ -16,13 +17,13 @@ namespace RRHH.WebApi.Controllers
     [ApiController]
     public class StatusController : ControllerBase
     {
-        private readonly StatusRepository _repository;
+        private readonly IStatusRepository _repository;
 
         /// <summary>
         /// Constructor del controlador.
         /// </summary>
         /// <param name="repository">Interfaz de la base de datos.</param>
-        public StatusController(StatusRepository repository)
+        public StatusController(IStatusRepository repository)
         {
             _repository = repository;
         }

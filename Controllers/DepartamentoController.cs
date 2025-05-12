@@ -3,6 +3,7 @@ using RRHH.WebApi.Models;
 using RRHH.WebApi.Repositories;
 using Microsoft.AspNetCore.JsonPatch;
 using RRHH.WebApi.Models.Dtos.Departamento;
+using RRHH.WebApi.Repositories.Interfaces;
 
 namespace RRHH.WebApi.Controllers
 {
@@ -18,13 +19,13 @@ namespace RRHH.WebApi.Controllers
     public class DepartamentoController : ControllerBase
     {
        
-       private readonly DepartamentoRepository _repository;
+       private readonly IDepartamentoRepository _repository;
 
        /// <summary>
        /// Constructor del controlador, que recibe una instancia de 
        /// la interfaz de la base de datos de Areas.
        /// </summary>
-       public DepartamentoController(DepartamentoRepository repository)
+       public DepartamentoController(IDepartamentoRepository repository)
        {
             _repository = repository;
        }
@@ -94,7 +95,7 @@ namespace RRHH.WebApi.Controllers
                 Descripcion = dto.Descripcion
             };
             // Agregar la departamento a la base de datos.
-            await _repository.AddSync(departamento);
+            await _repository.AddAsync(departamento);
 
             // Mapear la departamento a DTO para enviar al cliente.
             var readDto = new DepartamentoReadDto

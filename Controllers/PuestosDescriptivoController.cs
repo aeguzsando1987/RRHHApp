@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using RRHH.WebApi.Models;
 using RRHH.WebApi.Models.Dtos.PuestosDescriptivo;
 using RRHH.WebApi.Repositories;
+using RRHH.WebApi.Repositories.Interfaces;
 
 namespace RRHH.WebApi.Controllers
 {
@@ -10,9 +11,9 @@ namespace RRHH.WebApi.Controllers
     [ApiController]
     public class PuestosDescriptivoController : ControllerBase
     {
-        private readonly PuestosDescriptivoRepository _repository;
+        private readonly IPuestosDescriptivoRepository _repository;
 
-        public PuestosDescriptivoController(PuestosDescriptivoRepository repository)
+        public PuestosDescriptivoController(IPuestosDescriptivoRepository repository)
         {
             _repository = repository;
         }

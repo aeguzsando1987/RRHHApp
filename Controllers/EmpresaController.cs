@@ -6,6 +6,7 @@ using RRHH.WebApi.Repositories;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Azure;
 using Microsoft.AspNetCore.JsonPatch;
+using RRHH.WebApi.Repositories.Interfaces;
 
 namespace RRHH.WebApi.Controllers
 {
@@ -17,13 +18,13 @@ namespace RRHH.WebApi.Controllers
     public class EmpresaController : ControllerBase
     {
 
-        private readonly EmpresasRepository _repository;
+        private readonly IEmpresaRepository _repository;
 
         /// <summary>
         /// Constructor del controlador de Empresas.
         /// </summary>
         /// <param name="repository">Instancia de la interfaz de acceso a la base de datos.</param>
-        public EmpresaController(EmpresasRepository repository)
+        public EmpresaController(IEmpresaRepository repository)
         {
             _repository = repository;
         }

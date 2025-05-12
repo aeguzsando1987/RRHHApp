@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using RRHH.WebApi.Models;
 using RRHH.WebApi.Models.Dtos.ContactosEmpleado;
 using RRHH.WebApi.Repositories;
+using RRHH.WebApi.Repositories.Interfaces;
 
 namespace RRHH.WebApi.Controllers
 {
@@ -20,9 +21,9 @@ namespace RRHH.WebApi.Controllers
     [Route("api/[controller]")]
     public class ContactosEmpleadoController : ControllerBase
     {
-        private readonly ContactosEmpleadoRepository _repository;
+        private readonly IContactosEmpleadoRepository _repository;
 
-        public ContactosEmpleadoController(ContactosEmpleadoRepository repository)
+        public ContactosEmpleadoController(IContactosEmpleadoRepository repository)
         {
             _repository = repository;
         }

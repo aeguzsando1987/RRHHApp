@@ -3,6 +3,7 @@ using RRHH.WebApi.Models;
 using RRHH.WebApi.Repositories;
 using Microsoft.AspNetCore.JsonPatch;
 using RRHH.WebApi.Models.Dtos.Puesto;
+using RRHH.WebApi.Repositories.Interfaces;
 
 namespace RRHH.WebApi.Controllers
 {
@@ -18,13 +19,13 @@ namespace RRHH.WebApi.Controllers
     public class PuestoController : ControllerBase
     {
        
-       private readonly PuestoRepository _repository;
+       private readonly IPuestoRepository _repository;
 
        /// <summary>
        /// Constructor del controlador, que recibe una instancia de 
        /// la interfaz de la base de datos de Puestos.
        /// </summary>
-       public PuestoController(PuestoRepository repository)
+       public PuestoController(IPuestoRepository repository)
        {
             _repository = repository;
        }
@@ -91,18 +92,20 @@ namespace RRHH.WebApi.Controllers
             // Crear un nuevo puesto con los datos del dto.
             var puesto = new Puesto 
             {
+                Clave = dto.Clave,
                 Id_Departamento = dto.Id_Departamento,
                 Id_Jerarquia = dto.Id_Jerarquia,
                 Titulo = dto.Titulo,
                 Descripcion = dto.Descripcion
             };
             // Agregar el puesto a la base de datos.
-            await _repository.AddSync(puesto);
+            await _repository.AddAsync(puesto);
 
             // Mapear el puesto a DTO para enviar al cliente.
             var readDto = new PuestoReadDto
             {
                 ID = puesto.ID,
+                Clave = puesto.Clave,
                 Id_Departamento = puesto.Id_Departamento,
                 Id_Jerarquia = puesto.Id_Jerarquia,
                 Titulo = puesto.Titulo,

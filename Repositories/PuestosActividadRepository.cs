@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using RRHH.WebApi.Data;
 using RRHH.WebApi.Models;
+using RRHH.WebApi.Repositories.Interfaces;
 
 namespace RRHH.WebApi.Repositories
 {
@@ -10,7 +11,7 @@ namespace RRHH.WebApi.Repositories
     /// Esta clase se encarga de interactuar con la base de datos para obtener, agregar, actualizar y eliminar
     /// actividades de puestos descriptivos.
     /// </summary>
-    public class PuestosActividadRepository
+    public class PuestosActividadRepository : IPuestosActividadRepository
     {
 
         private readonly RRHHDbContext _context;
@@ -40,7 +41,7 @@ namespace RRHH.WebApi.Repositories
         /// </summary>
         /// <param name="id">Id de la actividad del puesto descriptivo</param>
         /// <returns>La actividad encontrada, o null si no existe</returns>
-        public async Task<PuestosActividad> GetByIDAsync(int id)
+        public async Task<PuestosActividad> GetByIdAsync(int id)
         {
 
             return await _context.PuestosActividad

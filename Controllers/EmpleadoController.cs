@@ -232,6 +232,30 @@ namespace RRHH.WebApi.Controllers
            return NoContent();
         }
 
+        [HttpPut("{id}/status")]
+        public async Task<IActionResult> UpdateStatus(int id, [FromBody] UpdateEmpleadoStatusDto statusDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var success = await _empleadoService.UpdateEmpleadoStatusAsync(id, statusDto.NewStatusId);
+            if (!success)
+            {
+                var empleadoExists = await _repository.GetByIdAsync(id);
+                if (empleadoExists == null)
+                {
+                    return NotFound(new { Message = $"Empleado con ID {id} no encontrado"});
+                }
+
+                return StatusCode(StatusCodes.Status500InternalServerError, 
+                                new { Message = "Error al actualizar el estatus del empleado"});
+            }
+
+            return NoContent();
+        }
+
         [HttpPatch("{id}")]
         public async Task<IActionResult> Patch(int id, [FromBody] JsonPatchDocument<EmpleadoUpdateDto> patchDoc)
         {
@@ -242,7 +266,6 @@ namespace RRHH.WebApi.Controllers
 
            var dto = new EmpleadoUpdateDto
            {
-                Id_Status = empleado.Id_Status,
                 Id_Puesto = empleado.Id_Puesto,
                 Id_Jefe = empleado.Id_Jefe,
                 Id_Ubicacion = empleado.Id_Ubicacion,
@@ -268,7 +291,6 @@ namespace RRHH.WebApi.Controllers
            patchDoc.ApplyTo(dto, ModelState);
            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-           empleado.Id_Status = dto.Id_Status;
            empleado.Id_Puesto = dto.Id_Puesto;
            empleado.Id_Jefe = dto.Id_Jefe;
            empleado.Id_Ubicacion = dto.Id_Ubicacion;
@@ -326,29 +348,6 @@ namespace RRHH.WebApi.Controllers
             return NoContent();
         }
 
-        [HttpPut("{id}/status")]
-        public async Task<IActionResult> UpdateStatus(int id, [FromBody] UpdateEmpleadoStatusDto statusDto)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var success = await _empleadoService.UpdateEmpleadoStatusAsync(id, statusDto.NewStatusId);
-            if (!success)
-            {
-                var empleadoExists = await _repository.GetByIdAsync(id);
-                if (empleadoExists == null)
-                {
-                    return NotFound(new { Message = $"Empleado con ID {id} no encontrado"});
-                }
-
-                return StatusCode(StatusCodes.Status500InternalServerError, 
-                                new { Message = "Error al actualizar el estatus del empleado"});
-            }
-
-            return NoContent();
-        }
 
     }
 }

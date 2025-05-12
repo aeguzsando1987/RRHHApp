@@ -4,10 +4,11 @@ using RRHH.WebApi.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using RRHH.WebApi.Repositories;
+using RRHH.WebApi.Repositories.Interfaces;
 
 namespace RRHH.WebApi.Repositories
 {
-    public class EmpleadoTipoRepository
+    public class EmpleadoTipoRepository : IEmpleadoTipoRepository
     {
         private readonly RRHHDbContext _context;
 

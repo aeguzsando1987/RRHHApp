@@ -1,11 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using RRHH.WebApi.Data;
 using RRHH.WebApi.Models;
+using RRHH.WebApi.Repositories.Interfaces;
 
 namespace RRHH.WebApi.Repositories
 {
 
-    public class AreaRepository
+    public class AreaRepository : IAreaRepository
     {
 
 
@@ -41,7 +42,7 @@ namespace RRHH.WebApi.Repositories
         /// Agrega una nueva area a la base de datos
         /// </summary>
         /// <param name="area">La empresa a agregar</param>
-        public async Task AddSync(Area area)
+        public async Task AddAsync(Area area)
         {
             _context.Areas.Add(area);
             await _context.SaveChangesAsync();

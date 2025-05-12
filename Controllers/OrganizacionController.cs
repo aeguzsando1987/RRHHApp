@@ -5,6 +5,7 @@ using RRHH.WebApi.Models.Dtos;
 using RRHH.WebApi.Models.Dtos.Organizacion;
 using RRHH.WebApi.Repositories;
 using Microsoft.AspNetCore.JsonPatch;
+using RRHH.WebApi.Repositories.Interfaces;
 
 
 
@@ -24,19 +25,15 @@ namespace RRHH.WebApi.Controllers
     public class OrganizacionController : ControllerBase
     {
 
-        // Instancia de OrganizacionRepository, para interactuar con la base de datos
-        private readonly OrganizacionRepository _repository;
+        // Instancia de IOrganizacionRepository, para interactuar con la base de datos
+        private readonly IOrganizacionRepository _repository;
 
         /// <summary>
         /// Constructor de OrganizacionController.
         /// </summary>
-        /// <param name="repository">Instancia de OrganizacionRepository.</param>
-        /// El constructor se encarga de asignar la instancia de OrganizacionRepository,
-        /// que es la clase que se encarga de interactuar con la base de datos para obtener
-        /// y manipular las organizaciones.
-        public OrganizacionController(OrganizacionRepository repository)
+        /// <param name="repository">Instancia de IOrganizacionRepository</param>
+        public OrganizacionController(IOrganizacionRepository repository)
         {
-            // Asigna la instancia de OrganizacionRepository
             _repository = repository;
         }
 
@@ -71,7 +68,7 @@ namespace RRHH.WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<OrganizacionReadDto>> GetByID(int id)
         {
-            var o = await _repository.GetByIdSync(id); // Llama a la implementacion de la interfaz de la base de datos
+            var o = await _repository.GetByIdAsync(id); // Llama a la implementacion de la interfaz de la base de datos
             if (o == null) return NotFound();
             var dto = new OrganizacionReadDto
             {
@@ -119,7 +116,7 @@ namespace RRHH.WebApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, OrganizacionUpdateDto dto)
         {
-            var o = await _repository.GetByIdSync(id);
+            var o = await _repository.GetByIdAsync(id);
             if (o == null) return NotFound();
 
             o.Clave = dto.Clave;
@@ -144,7 +141,7 @@ namespace RRHH.WebApi.Controllers
                 return BadRequest();
 
             // Busca la organizacion por su id
-            var organizacion = await _repository.GetByIdSync(id);
+            var organizacion = await _repository.GetByIdAsync(id);
 
             // Si la organizacion no existe, regresa 404 Not Found
             if (organizacion == null)

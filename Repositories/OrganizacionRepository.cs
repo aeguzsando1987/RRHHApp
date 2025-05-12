@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using RRHH.WebApi.Models;
 using RRHH.WebApi.Data;
+using RRHH.WebApi.Repositories.Interfaces;
 
 /// <summary>
 /// Interfaz para interactuar con la tabla Organizaciones en la base de datos
@@ -11,7 +12,7 @@ using RRHH.WebApi.Data;
 
 namespace RRHH.WebApi.Repositories
 {
-    public class OrganizacionRepository
+    public class OrganizacionRepository : IOrganizacionRepository
     {
         // Inicializa el contexto de la base de datos
         private readonly RRHHDbContext _context;
@@ -35,7 +36,7 @@ namespace RRHH.WebApi.Repositories
         /// </summary>
         /// <param name="id">Id de la organizacion a buscar</param>
         /// <returns>La organizacion encontrada, o null si no existe</returns>
-        public async Task<Organizacion> GetByIdSync(int id)
+        public async Task<Organizacion> GetByIdAsync(int id)
         {
             // Pide a la base de datos que devuelva la organizacion en particular por su id y espera a que se complete
             return await _context.Organizaciones.FindAsync(id); // 2. Obtiene una organizacion en particular por su id

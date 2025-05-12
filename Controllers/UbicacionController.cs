@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using RRHH.WebApi.Models;
-using RRHH.WebApi.Repositories;
 using RRHH.WebApi.Models.Dtos.Ubicacion;
 using System.Threading.Tasks;
 using System.Linq;
@@ -8,6 +7,7 @@ using System.Collections.Generic;
 using System;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.AspNetCore.JsonPatch;
+using RRHH.WebApi.Repositories.Interfaces;
 
 namespace RRHH.WebApi.Controllers
 {
@@ -15,9 +15,9 @@ namespace RRHH.WebApi.Controllers
     [ApiController]
     public class UbicacionController : ControllerBase
     {
-        private readonly UbicacionRepository _repository;
+        private readonly IUbicacionRepository _repository;
 
-        public UbicacionController(UbicacionRepository repository)
+        public UbicacionController(IUbicacionRepository repository)
         {
             _repository = repository;
         }

@@ -1,10 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using RRHH.WebApi.Data;
 using RRHH.WebApi.Models;
+using RRHH.WebApi.Repositories.Interfaces;
 
 namespace RRHH.WebApi.Repositories
 {
-    public class ContactosEmpresaRepository
+    public class ContactosEmpresaRepository : IContactosEmpresaRepository
     {
         private readonly RRHHDbContext _context;
 

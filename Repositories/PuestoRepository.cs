@@ -1,11 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using RRHH.WebApi.Data;
 using RRHH.WebApi.Models;
+using RRHH.WebApi.Repositories.Interfaces;
 
 namespace RRHH.WebApi.Repositories
 {
 
-    public class PuestoRepository
+    public class PuestoRepository : IPuestoRepository
     {
         private readonly RRHHDbContext _context;
 
@@ -43,7 +44,7 @@ namespace RRHH.WebApi.Repositories
         /// Agrega un nuevo puesto a la base de datos
         /// </summary>
         /// <param name="puesto">El puesto a agregar</param>
-        public async Task AddSync(Puesto puesto)
+        public async Task AddAsync(Puesto puesto)
         {
             _context.Puestos.Add(puesto); // Agrega el nuevo elemento a la tabla
             await _context.SaveChangesAsync(); // Guarda los cambios en la base de datos
