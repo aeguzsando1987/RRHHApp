@@ -17,7 +17,7 @@ namespace RRHH.WebApi.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.4")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -50,6 +50,15 @@ namespace RRHH.WebApi.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ConcurrencyStamp = "ea4bb1b0-1229-4b18-af48-9ef544af709d",
+                            Name = "SuperAdmin",
+                            NormalizedName = "SUPERADMIN"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -134,6 +143,13 @@ namespace RRHH.WebApi.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            RoleId = 1
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
@@ -191,10 +207,10 @@ namespace RRHH.WebApi.Migrations
                         new
                         {
                             ID = 1,
-                            Clave = "AR1",
-                            Descripcion = "AREA PRUEBA",
+                            Clave = "AREA_DEFAULT",
+                            Descripcion = "Descripción del Área de Administración",
                             Id_Empresa = 1,
-                            Nombre = "AREA PRUEBA"
+                            Nombre = "Área de Administración"
                         });
                 });
 
@@ -316,10 +332,10 @@ namespace RRHH.WebApi.Migrations
                         new
                         {
                             ID = 1,
-                            Clave = "DEP1",
-                            Descripcion = "DEPARTAMENTO PRUEBA",
+                            Clave = "DEP_DEFAULT",
+                            Descripcion = "Descripción del Departamento de TI",
                             Id_Area = 1,
-                            Nombre = "DEPARTAMENTO PRUEBA"
+                            Nombre = "Departamento de TI"
                         });
                 });
 
@@ -354,6 +370,15 @@ namespace RRHH.WebApi.Migrations
                     b.HasIndex("Id_Ubicacion");
 
                     b.ToTable("Empleados");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            Id_Puesto = 1,
+                            Id_Status = 1,
+                            Id_Ubicacion = 1
+                        });
                 });
 
             modelBuilder.Entity("RRHH.WebApi.Models.Empleado_Perfil", b =>
@@ -428,6 +453,26 @@ namespace RRHH.WebApi.Migrations
                     b.HasIndex("Id_Tipo_Empleado");
 
                     b.ToTable("Empleados_Perfil");
+
+                    b.HasData(
+                        new
+                        {
+                            Id_Empleado = 1,
+                            Apellido_Materno = "User",
+                            Apellido_Paterno = "Admin",
+                            Clave = "SUPERADMIN",
+                            Curp = "XXXX010101HXXXTX01",
+                            Edo_Civil = "Soltero/a",
+                            Email = "superadmin@example.com",
+                            Fecha_Inicio = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Fecha_Nacimiento = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id_Tipo_Empleado = 1,
+                            NSS = "00000000000",
+                            Nombres = "Super",
+                            RFC = "XAXX010101000",
+                            Sexo = "M",
+                            Tel = "555-0100"
+                        });
                 });
 
             modelBuilder.Entity("RRHH.WebApi.Models.Empleado_Tipo", b =>
@@ -460,30 +505,23 @@ namespace RRHH.WebApi.Migrations
                         new
                         {
                             ID = 1,
-                            Descripcion = "COLABORADOR DE CONFIANZA",
-                            Prefijo = "CNF",
+                            Descripcion = "Personal admvo., gerencial estrategico de confianza",
+                            Prefijo = "CONF",
                             Titulo = "DE CONFIANZA"
                         },
                         new
                         {
                             ID = 2,
-                            Descripcion = "TECNICO OPERATIVO CON HRS. EXTRA",
-                            Prefijo = "PLA",
-                            Titulo = "DE PLANTA"
+                            Descripcion = "Personal operativo con opcion de hrs extras",
+                            Prefijo = "OPR",
+                            Titulo = "OPERATIVO"
                         },
                         new
                         {
                             ID = 3,
-                            Descripcion = "EMPLEADO EVENTUAL CON CONTRATO TEMPORAL",
-                            Prefijo = "EVT",
-                            Titulo = "EVENTUAL"
-                        },
-                        new
-                        {
-                            ID = 4,
-                            Descripcion = "BENEFICIARIO DE FORMACION PROFESIONAL",
-                            Prefijo = "BEC",
-                            Titulo = "BECARIO"
+                            Descripcion = "SOCIOS EN NOMINA DE EMPRESA",
+                            Prefijo = "SOC",
+                            Titulo = "SOCIO"
                         });
                 });
 
@@ -604,12 +642,12 @@ namespace RRHH.WebApi.Migrations
                         new
                         {
                             ID = 1,
-                            Clave = "EMP1",
-                            Direccion = "",
-                            Fecha_Creacion = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Clave = "EMP_DEFAULT",
+                            Direccion = "Calle Falsa 123, Colonia Centro",
+                            Fecha_Creacion = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Id_Org = 1,
-                            RFC = "",
-                            Razon_Social = "EMPRESA PRUEBA"
+                            RFC = "XAXX010101000",
+                            Razon_Social = "Empresa Principal"
                         });
                 });
 
@@ -718,40 +756,48 @@ namespace RRHH.WebApi.Migrations
                         new
                         {
                             ID = 1,
-                            Clave = "DIR",
-                            Descripcion = "DIRECCION GENERAL",
+                            Clave = "DIRGRAL",
+                            Descripcion = "MAXIMA AUTORIDAD",
                             Nivel = 0,
                             Titulo = "DIRECCION GENERAL"
                         },
                         new
                         {
                             ID = 2,
-                            Clave = "DAR",
-                            Descripcion = "DIRECCION DE AREA O UNIDAD",
+                            Clave = "DIRAREA",
+                            Descripcion = "DIR. AREA O DIVISION",
                             Nivel = 1,
-                            Titulo = "DIRECCION"
+                            Titulo = "DIRECCION DE AREA"
                         },
                         new
                         {
                             ID = 3,
                             Clave = "GER",
-                            Descripcion = "GERENCIA DE AREA O DEPARTAMENTO",
+                            Descripcion = "GERENCIA DE DEPTO. O UNIDAD",
                             Nivel = 2,
                             Titulo = "GERENCIA"
                         },
                         new
                         {
                             ID = 4,
-                            Clave = "CRD",
-                            Descripcion = "COORDINACION/JEFATURA DE DEPTO. U OFICINA",
+                            Clave = "JEFDPTO",
+                            Descripcion = "JEFATURA DE DPTO.",
                             Nivel = 3,
+                            Titulo = "JEFATURA DEPTO."
+                        },
+                        new
+                        {
+                            ID = 5,
+                            Clave = "COORD",
+                            Descripcion = "COORD.PROYECTOS O EQUIPOS",
+                            Nivel = 4,
                             Titulo = "COORDINACION"
                         },
                         new
                         {
                             ID = 6,
                             Clave = "SUP",
-                            Descripcion = "SUPERVISION DE DEPTO. U OFICINA",
+                            Descripcion = "SUPERVISION DE DPTO.",
                             Nivel = 5,
                             Titulo = "SUPERVISION"
                         },
@@ -759,7 +805,7 @@ namespace RRHH.WebApi.Migrations
                         {
                             ID = 7,
                             Clave = "AUX",
-                            Descripcion = "COLABORACION AUX. ADMVA. U OPERATIVA",
+                            Descripcion = "COLABORACION AUX. ADMVA. OP.",
                             Nivel = 6,
                             Titulo = "AUXILIAR"
                         });
@@ -794,9 +840,9 @@ namespace RRHH.WebApi.Migrations
                         new
                         {
                             Id = 1,
-                            Clave = "ORG1",
-                            Fecha_Creacion = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Nombre = "CONGLOMERADO"
+                            Clave = "ORG_DEFAULT",
+                            Fecha_Creacion = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Nombre = "Organización Principal"
                         });
                 });
 
@@ -836,6 +882,17 @@ namespace RRHH.WebApi.Migrations
                     b.HasIndex("Id_Jerarquia");
 
                     b.ToTable("Puestos");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            Clave = "PST_SUPERADMIN",
+                            Descripcion = "Puesto de Super Administrador del sistema",
+                            Id_Departamento = 1,
+                            Id_Jerarquia = 5,
+                            Titulo = "Super Administrador"
+                        });
                 });
 
             modelBuilder.Entity("RRHH.WebApi.Models.PuestosActividad", b =>
@@ -975,6 +1032,15 @@ namespace RRHH.WebApi.Migrations
                     b.HasIndex("Id_Empresa");
 
                     b.ToTable("Ubicaciones");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            Clave = "UBI_PRINCIPAL",
+                            Id_Empresa = 1,
+                            Ubicacion_Referencial = "Oficinas Centrales"
+                        });
                 });
 
             modelBuilder.Entity("RRHH.WebApi.Models.User", b =>
@@ -1052,6 +1118,26 @@ namespace RRHH.WebApi.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccessFailedCount = 0,
+                            Active = true,
+                            ConcurrencyStamp = "c2b1a09f-8d6e-4c5a-7b4f-3e2d1c0b9a8e",
+                            Email = "superadmin@example.com",
+                            EmailConfirmed = true,
+                            Id_Empleado = 1,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "SUPERADMIN@EXAMPLE.COM",
+                            NormalizedUserName = "SUPERADMIN@EXAMPLE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMRtuZ08na0uYj9mgXHFn+N831HTSjdk1fOUkCi6AawFZO2yK1CxdgjKe1clHKXrzA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "d3a4be3b-5e7b-4b7f-8c6a-1a9f8e7d6c5b",
+                            TwoFactorEnabled = false,
+                            UserName = "superadmin@example.com"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -1291,7 +1377,7 @@ namespace RRHH.WebApi.Migrations
                     b.HasOne("RRHH.WebApi.Models.Empleado", "Empleado")
                         .WithOne("User")
                         .HasForeignKey("RRHH.WebApi.Models.User", "Id_Empleado")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Empleado");

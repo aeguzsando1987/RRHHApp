@@ -2,10 +2,11 @@ using Microsoft.EntityFrameworkCore;
 using RRHH.WebApi.Data;
 using RRHH.WebApi.Models;
 using RRHH.WebApi.Models.Enums;
+using RRHH.WebApi.Repositories.Interfaces;
 
 namespace RRHH.WebApi.Repositories
 {
-    public class EmpleadoRepository
+    public class EmpleadoRepository : IEmpleadoRepository
     {
         private readonly RRHHDbContext _context;
 
@@ -24,7 +25,7 @@ namespace RRHH.WebApi.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Empleado> GetByIdAsync(int id)
+        public async Task<Empleado?> GetByIdAsync(int id)
         {
             return await _context.Empleados
                 .Include(e => e.Puesto)

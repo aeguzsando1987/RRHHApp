@@ -2,11 +2,11 @@ using Microsoft.AspNetCore.Mvc;
 using RRHH.WebApi.Models;
 using RRHH.WebApi.Models.Dtos.Empleado;
 using RRHH.WebApi.Models.Dtos.EmpleadoPerfil;
+using RRHH.WebApi.Repositories.Interfaces;
 using RRHH.WebApi.Repositories;
 using Microsoft.AspNetCore.JsonPatch;
 using RRHH.WebApi.Models.Dtos.EmpladoTipo;
-
-
+using RRHH.WebApi.Services;
 
 namespace RRHH.WebApi.Controllers
 {
@@ -21,18 +21,21 @@ namespace RRHH.WebApi.Controllers
     public class EmpleadoController : ControllerBase
     {
 
-        private readonly EmpleadoRepository _repository;
+        private readonly IEmpleadoRepository _repository;
         private readonly EmpleadoTipoRepository _tipoRepository;
+        private readonly IEmpleadoService _empleadoService;
 
         /// <summary>
         /// Constructor del controlador de Empleados.
         /// </summary>
         /// <param name="repository">Instancia de la interfaz de acceso a la base de datos.</param>
         /// <param name="tipoRepository">Instancia del repositorio de tipos de empleado.</param>
-        public EmpleadoController(EmpleadoRepository repository, EmpleadoTipoRepository tipoRepository)
+        /// <param name="empleadoService">Instancia del servicio de empleados.</param>
+        public EmpleadoController(IEmpleadoRepository repository, EmpleadoTipoRepository tipoRepository, IEmpleadoService empleadoService)
         {
             _repository = repository;
             _tipoRepository = tipoRepository;
+            _empleadoService = empleadoService;
         }
 
         [HttpGet]
@@ -320,6 +323,30 @@ namespace RRHH.WebApi.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             await _repository.DeleteAsync(id);
+            return NoContent();
+        }
+
+        [HttpPut("{id}/status")]
+        public async Task<IActionResult> UpdateStatus(int id, [FromBody] UpdateEmpleadoStatusDto statusDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var success = await _empleadoService.UpdateEmpleadoStatusAsync(id, statusDto.NewStatusId);
+            if (!success)
+            {
+                var empleadoExists = await _repository.GetByIdAsync(id);
+                if (empleadoExists == null)
+                {
+                    return NotFound(new { Message = $"Empleado con ID {id} no encontrado"});
+                }
+
+                return StatusCode(StatusCodes.Status500InternalServerError, 
+                                new { Message = "Error al actualizar el estatus del empleado"});
+            }
+
             return NoContent();
         }
 

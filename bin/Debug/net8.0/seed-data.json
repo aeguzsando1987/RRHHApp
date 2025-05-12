@@ -1,0 +1,147 @@
+{
+  "Organizaciones": [
+    {
+      "Id": 1,
+      "Clave": "ORG_DEFAULT",
+      "Nombre": "Organización Principal",
+      "Fecha_Creacion": "2024-01-01T00:00:00"
+    }
+  ],
+  "Empresas": [
+    {
+      "ID": 1,
+      "Id_Org": 1,
+      "Clave": "EMP_DEFAULT",
+      "Razon_Social": "Empresa Principal",
+      "RFC": "XAXX010101000",
+      "Direccion": "Calle Falsa 123, Colonia Centro",
+      "Fecha_Creacion": "2024-01-01T00:00:00"
+    }
+  ],
+  "Areas": [
+    {
+      "ID": 1,
+      "Id_Empresa": 1,
+      "Clave": "AREA_DEFAULT",
+      "Nombre": "Área de Administración",
+      "Descripcion": "Descripción del Área de Administración"
+    }
+  ],
+  "Departamentos": [
+    {
+      "ID": 1,
+      "Id_Area": 1,
+      "Clave": "DEP_DEFAULT",
+      "Nombre": "Departamento de TI",
+      "Descripcion": "Descripción del Departamento de TI"
+    }
+  ],
+  "Ubicaciones": [
+    {
+      "ID": 1,
+      "Id_Empresa": 1,
+      "Clave": "UBI_PRINCIPAL",
+      "Ubicacion_Referencial": "Oficinas Centrales"
+    }
+  ],
+  "Puestos": [
+    {
+      "ID": 1,
+      "Id_Departamento": 1,
+      "Clave": "PST_SUPERADMIN",
+      "Titulo": "Super Administrador",
+      "Descripcion": "Puesto de Super Administrador del sistema",
+      "Id_Jerarquia": 5
+    }
+  ],
+  "Empleados": [
+    {
+      "ID": 1,
+      "Id_Puesto": 1,
+      "Id_Ubicacion": 1,
+      "Id_Status": 1,
+      "Id_Jefe": null
+    }
+  ],
+  "EmpleadoPerfiles": [
+    {
+      "Id_Empleado": 1,
+      "Clave": "SUPERADMIN",
+      "Nombres": "Super",
+      "Apellido_Paterno": "Admin",
+      "Apellido_Materno": "User",
+      "Fecha_Nacimiento": "1990-01-01T00:00:00",
+      "Sexo": "M",
+      "Edo_Civil": "Soltero/a",
+      "Fecha_Inicio": "2024-01-01T00:00:00",
+      "Email": "superadmin@example.com",
+      "Tel": "555-0100",
+      "NSS": "00000000000",
+      "RFC": "XAXX010101000",
+      "Curp": "XXXX010101HXXXTX01",
+      "Id_Tipo_Empleado": 1
+    }
+  ],
+  "EmpleadoTipos": [
+    {
+      "Id": 1,
+      "Titulo": "DE CONFIANZA",
+      "Prefijo": "CONF",
+      "Descripcion": "Personal admvo., gerencial estrategico de confianza"
+    },
+    {
+      "Id": 2,
+      "Titulo": "OPERATIVO",
+      "Prefijo": "OPR",
+      "Descripcion": "Personal operativo con opcion de hrs extras"
+    },
+    {
+      "Id": 3,
+      "Titulo": "SOCIO",
+      "Prefijo": "SOC",
+      "Descripcion": "SOCIOS EN NOMINA DE EMPRESA"
+    }
+  ],
+  "Roles": [
+    {
+      "Id": 1,
+      "Name": "SuperAdmin",
+      "NormalizedName": "SUPERADMIN",
+      "ConcurrencyStamp": "ea4bb1b0-1229-4b18-af48-9ef544af709d"
+    }
+  ],
+  "Users": [
+    {
+      "Id": 1,
+      "UserName": "superadmin@example.com",
+      "NormalizedUserName": "SUPERADMIN@EXAMPLE.COM",
+      "Email": "superadmin@example.com",
+      "NormalizedEmail": "SUPERADMIN@EXAMPLE.COM",
+      "EmailConfirmed": true,
+      "PasswordHash": "AQAAAAIAAYagAAAAEMRtuZ08na0uYj9mgXHFn+N831HTSjdk1fOUkCi6AawFZO2yK1CxdgjKe1clHKXrzA==",
+      "SecurityStamp": "d3a4be3b-5e7b-4b7f-8c6a-1a9f8e7d6c5b",
+      "ConcurrencyStamp": "c2b1a09f-8d6e-4c5a-7b4f-3e2d1c0b9a8e",
+      "Id_Empleado": 1,
+      "Active": true,
+      "LockoutEnabled": false,
+      "PhoneNumberConfirmed": false,
+      "TwoFactorEnabled": false,
+      "AccessFailedCount": 0
+    }
+  ],
+  "UserRoles": [
+    {
+      "UserId": 1,
+      "RoleId": 1
+    }
+  ],
+  "Jerarquias": [
+    { "ID": 1, "Clave": "DIRGRAL", "Titulo": "DIRECCION GENERAL", "Descripcion": "MAXIMA AUTORIDAD", "Nivel": 0 },
+    { "ID": 2, "Clave": "DIRAREA", "Titulo": "DIRECCION DE AREA", "Descripcion": "DIR. AREA O DIVISION", "Nivel": 1 },
+    { "ID": 3, "Clave": "GER", "Titulo": "GERENCIA", "Descripcion": "GERENCIA DE DEPTO. O UNIDAD", "Nivel": 2 },
+    { "ID": 4, "Clave": "JEFDPTO", "Titulo": "JEFATURA DEPTO.", "Descripcion": "JEFATURA DE DPTO.", "Nivel": 3 },
+    { "ID": 5, "Clave": "COORD", "Titulo": "COORDINACION", "Descripcion": "COORD.PROYECTOS O EQUIPOS", "Nivel": 4 },
+    { "ID": 6, "Clave": "SUP", "Titulo": "SUPERVISION", "Descripcion": "SUPERVISION DE DPTO.", "Nivel": 5 },
+    { "ID": 7, "Clave": "AUX", "Titulo": "AUXILIAR", "Descripcion": "COLABORACION AUX. ADMVA. OP.", "Nivel": 6 }
+  ]
+}

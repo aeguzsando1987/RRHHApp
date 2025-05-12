@@ -1,9 +1,10 @@
-
 using Microsoft.EntityFrameworkCore;
 using RRHH.WebApi.Models;
 using RRHH.WebApi.Models.Interfaces;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using System.IO; 
+using System.Text.Json; 
 
 namespace RRHH.WebApi.Data {
 
@@ -266,7 +267,7 @@ namespace RRHH.WebApi.Data {
                 .WithOne(u => u.Empleado)
                 .HasForeignKey<User>(u => u.Id_Empleado)
                 // Si se elimina un Empleado, se eliminara el User relacionado
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             // Relacion entre Empleado y Contactos: un Empleado puede tener varios Contactos (N:1)
             modelBuilder.Entity<ContactosEmpleado>()
@@ -317,13 +318,6 @@ namespace RRHH.WebApi.Data {
                 .HasForeignKey(ep => ep.Id_Tipo_Empleado)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Empleado_Tipo>().HasData(
-                new Empleado_Tipo { ID = 1, Titulo = "DE CONFIANZA", Descripcion = "COLABORADOR DE CONFIANZA", Prefijo = "CNF" },
-                new Empleado_Tipo { ID = 2, Titulo = "DE PLANTA", Descripcion = "TECNICO OPERATIVO CON HRS. EXTRA", Prefijo = "PLA" },
-                new Empleado_Tipo { ID = 3, Titulo = "EVENTUAL", Descripcion = "EMPLEADO EVENTUAL CON CONTRATO TEMPORAL", Prefijo = "EVT" },
-                new Empleado_Tipo { ID = 4, Titulo = "BECARIO", Descripcion = "BENEFICIARIO DE FORMACION PROFESIONAL", Prefijo = "BEC" }
-            );
-
             modelBuilder.Entity<Status>().HasData(
                 new Status {ID = 1, Status_Emp = "ACTIVO", Descripcion_Status = "EMPLEADO ACTIVO"},
                 new Status {ID = 2, Status_Emp = "SUSPENDIDO", Descripcion_Status = "EMPLEADO SUSPENDIDO"},
@@ -332,30 +326,70 @@ namespace RRHH.WebApi.Data {
                 new Status {ID = 5, Status_Emp = "INCAPACIDAD", Descripcion_Status = "EMPLEADO INACTIVO POR INCAPACIDAD MEDICA"}
             );
 
-            modelBuilder.Entity<Organizacion>().HasData(
-                new Organizacion {Id = 1, Clave = "ORG1", Nombre = "CONGLOMERADO", Fecha_Creacion = DateTime.Parse("2000-01-01")}
-            );
-
-            modelBuilder.Entity<Empresa>().HasData(
-                new Empresa {ID = 1, Id_Org = 1, Clave = "EMP1", Razon_Social = "EMPRESA PRUEBA", Fecha_Creacion = DateTime.Parse("2000-01-01")}
-            );
+            // Path to the seed data JSON file
+            // Ensure "seed-data.json" properties in .csproj are set to "Copy to Output Directory: PreserveNewest" or "Copy always"
+            var seedJsonPath = Path.Combine(AppContext.BaseDirectory, "seed-data.json");
             
-            modelBuilder.Entity<Area>().HasData(
-                new Area {ID = 1, Id_Empresa = 1, Clave = "AR1", Nombre = "AREA PRUEBA", Descripcion = "AREA PRUEBA"}
-            );
+            if (File.Exists(seedJsonPath))
+            {
+                var jsonData = File.ReadAllText(seedJsonPath);
+                var seedDataOptions = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+                var seedData = JsonSerializer.Deserialize<SeedDataContainer>(jsonData, seedDataOptions);
 
-            modelBuilder.Entity<Departamento>().HasData(
-                new Departamento {ID = 1, Id_Area = 1, Clave = "DEP1", Nombre = "DEPARTAMENTO PRUEBA", Descripcion = "DEPARTAMENTO PRUEBA"}
-            );
+                if (seedData != null)
+                {
+                    // Seed data in order of dependencies
+                    if (seedData.Organizaciones?.Any() == true)
+                        modelBuilder.Entity<Organizacion>().HasData(seedData.Organizaciones);
 
-            modelBuilder.Entity<Jerarquia>().HasData(
-                new Jerarquia {ID = 1, Clave = "DIR", Titulo = "DIRECCION GENERAL", Descripcion = "DIRECCION GENERAL", Nivel = 0},
-                new Jerarquia {ID = 2, Clave = "DAR", Titulo = "DIRECCION", Descripcion = "DIRECCION DE AREA O UNIDAD", Nivel = 1},
-                new Jerarquia {ID = 3, Clave = "GER", Titulo = "GERENCIA", Descripcion = "GERENCIA DE AREA O DEPARTAMENTO", Nivel = 2},
-                new Jerarquia {ID = 4, Clave = "CRD", Titulo = "COORDINACION", Descripcion = "COORDINACION/JEFATURA DE DEPTO. U OFICINA", Nivel = 3},
-                new Jerarquia {ID = 6, Clave = "SUP", Titulo = "SUPERVISION", Descripcion = "SUPERVISION DE DEPTO. U OFICINA", Nivel = 5},
-                new Jerarquia {ID = 7, Clave = "AUX", Titulo = "AUXILIAR", Descripcion = "COLABORACION AUX. ADMVA. U OPERATIVA", Nivel = 6}
-            );
+                    if (seedData.Empresas?.Any() == true)
+                        modelBuilder.Entity<Empresa>().HasData(seedData.Empresas);
+                    
+                    if (seedData.Areas?.Any() == true)
+                        modelBuilder.Entity<Area>().HasData(seedData.Areas);
+
+                    if (seedData.Departamentos?.Any() == true)
+                        modelBuilder.Entity<Departamento>().HasData(seedData.Departamentos);
+                    
+                    if (seedData.Ubicaciones?.Any() == true)
+                        modelBuilder.Entity<Ubicacion>().HasData(seedData.Ubicaciones);
+
+                    if (seedData.Jerarquias?.Any() == true)
+                        modelBuilder.Entity<Jerarquia>().HasData(seedData.Jerarquias);
+
+                    if (seedData.EmpleadoTipos?.Any() == true)
+                        modelBuilder.Entity<Empleado_Tipo>().HasData(seedData.EmpleadoTipos);
+
+                    if (seedData.Puestos?.Any() == true)
+                        modelBuilder.Entity<Puesto>().HasData(seedData.Puestos);
+                    
+                    if (seedData.Empleados?.Any() == true)
+                        modelBuilder.Entity<Empleado>().HasData(seedData.Empleados);
+
+                    if (seedData.EmpleadoPerfiles?.Any() == true)
+                        modelBuilder.Entity<Empleado_Perfil>().HasData(seedData.EmpleadoPerfiles);
+
+                    // Identity entities
+                    if (seedData.Roles?.Any() == true)
+                        modelBuilder.Entity<IdentityRole<int>>().HasData(seedData.Roles);
+                    
+                    // Note: For Users, PasswordHash should already be hashed in the JSON.
+                    // EF Core Identity will take care of it.
+                    if (seedData.Users?.Any() == true)
+                        modelBuilder.Entity<User>().HasData(seedData.Users);
+
+                    if (seedData.UserRoles?.Any() == true)
+                        modelBuilder.Entity<IdentityUserRole<int>>().HasData(seedData.UserRoles);
+                }
+            }
+            else
+            {
+                // Optionally, log a warning or throw an exception if the seed file is not found
+                Console.WriteLine($"Warning: Seed data file not found at {seedJsonPath}");
+            }
         }
     }
 }
